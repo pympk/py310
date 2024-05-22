@@ -2,9 +2,9 @@ geckodriver.log
 .env
 .venv
 
-# Python virtual environments
-venv/
-env/
+# # Python virtual environments
+# venv/
+# env/
 
-# .env file
-.env
+# # .env file
+# .env
