@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "py310"
+version = "0.1.0"
+description = ""
+authors = ["pympk <yee_ping@yahoo.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+ipykernel = "^6.29.4"
+langchain = "^0.2.0"
+langchain-openai = "^0.1.7"
+chromadb = "^0.5.0"
+llama-index = "^0.10.37"
+openai = "^1.30.1"
+streamlit = "^1.34.0"
+requests = "^2.32.2"
+beautifulsoup4 = "^4.12.3"
+selenium = "^4.21.0"
+yt-dlp = "^2024.4.9"
+pydub = "^0.25.1"
+langchain-community = "^0.2.0"
+langchainhub = "^0.1.15"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
