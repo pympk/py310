@@ -1,0 +1,10 @@
+geckodriver.log
+.env
+.venv
+
+# Python virtual environments
+venv/
+env/
+
+# .env file
+.env
