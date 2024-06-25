@@ -29,7 +29,8 @@ llama-index-embeddings-ollama = "^0.1.2"
 llama-index-vector-stores-chroma = "^0.1.8"
 matplotlib = "^3.9.0"
 pytube = "^15.0.0"
-whisper = "^1.1.10"
+pip = "^24.1"
+openai-whisper = { git = "https://github.com/openai/whisper.git", rev = "v20231117" }
 
 
 [build-system]
