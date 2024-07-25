@@ -20,7 +20,7 @@ def _chunk_texts(texts):
     character_splitter = RecursiveCharacterTextSplitter(
         separators=["\n\n", "\n", ". ", " ", ""],
         chunk_size=1000,
-        chunk_overlap=0
+        chunk_overlap=200
     )
     character_split_texts = character_splitter.split_text('\n\n'.join(texts))
 
@@ -47,20 +47,6 @@ def load_pdf_chroma(filename_pdf, collection_name, embedding_function, persist_d
     return chroma_collection
 
 
-# def load_chroma(filename, collection_name, embedding_function):
-#     texts = _read_pdf(filename)
-#     chunks = _chunk_texts(texts)
-
-#     chroma_cliet = chromadb.Client()
-#     chroma_collection = chroma_cliet.create_collection(name=collection_name, embedding_function=embedding_function)
-
-#     ids = [str(i) for i in range(len(chunks))]
-
-#     chroma_collection.add(ids=ids, documents=chunks)
-
-#     return chroma_collection
-
-
 def word_wrap(string, n_chars=72):
     # Wrap a string at the next space after n_chars
     if len(string) < n_chars:
@@ -74,3 +60,14 @@ def project_embeddings(embeddings, umap_transform):
     for i, embedding in enumerate(tqdm(embeddings)): 
         umap_embeddings[i] = umap_transform.transform([embedding])
     return umap_embeddings
+
+
+def flatten(data):
+    """Flattens a list of lists into a single list."""
+    flat_list = []
+    for item in data:
+        if isinstance(item, list):
+            flat_list.extend(flatten(item))
+        else:
+            flat_list.append(item)
+    return flat_list
