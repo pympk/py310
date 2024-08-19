@@ -6008,3 +6008,69 @@ def delete_all_rows(path_data_dump, filename_pickle, verbose=False):
         print(f'{filename_pickle}.tail(3) after delete_all_rows:\n{df.tail(3)}\n')
         print(f'{filename_pickle} save to: {path_data_dump}{filename_pickle}\n\n')
     return None
+
+
+
+def check_file_size(file_path, file_size_limit_MB):
+    """Checks the size of a file and raises an exception if it exceeds 25 MB.
+
+    Args:
+        file_path (str): The path to the file to check.
+        file_size_limit_MB (float): The maximum file size limit in MB.
+
+    Raises:
+        ValueError: If the file size is greater than 25 MB.
+    """
+
+    import os
+
+    file_size_bytes = os.path.getsize(file_path)
+    file_size_mb = file_size_bytes / (1024 * 1024)
+    if file_size_bytes > file_size_limit_MB * 1024 * 1024:
+        raise ValueError(f"ERROR: File {file_path} is {round(file_size_mb, 1)} MB. Maximum limit is {file_size_limit_MB} MB.")
+
+
+def find_strings_with_substring(string_list, substring, location=None):
+  """Finds strings in a list that contain a specified substring at a specified location.
+
+  Args:
+    string_list: A list of strings.
+    substring: The substring to search for.
+    location: The location of the substring within the string. Can be None, 'start', or 'end'. Defaults to None.
+
+  Returns:
+    A list of strings that contain the specified substring at the specified location.
+  """
+
+  matching_strings = []
+  for string in string_list:
+    if location is None:
+      if substring.lower() in string.lower():
+        matching_strings.append(string)
+    elif location == 'start':
+      if string.lower().startswith(substring.lower()):
+        matching_strings.append(string)
+    elif location == 'end':
+      if string.lower().endswith(substring.lower()):
+        matching_strings.append(string)
+  return matching_strings
+
+
+def keep_first_n_words(string: str, n: int) -> str:
+  """Strips leading and trailing spaces, replaces inner spaces with underscores, and keeps only the first n words.
+
+  Args:
+    string: The input string.
+    n: The number of words to keep.
+
+  Returns:
+    The modified string.
+  """
+
+  stripped_string = ''.join(char for char in string if char.isalpha() or char.isspace())
+  # use space to split words, removes leading and trailing spaces
+  words = stripped_string.split()
+  first_n_words = ' '.join(words[:n])
+  result = first_n_words.replace(" ", "_")
+  return result
+
