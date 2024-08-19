@@ -6009,8 +6009,6 @@ def delete_all_rows(path_data_dump, filename_pickle, verbose=False):
         print(f'{filename_pickle} save to: {path_data_dump}{filename_pickle}\n\n')
     return None
 
-
-
 def check_file_size(file_path, file_size_limit_MB):
     """Checks the size of a file and raises an exception if it exceeds 25 MB.
 
@@ -6028,7 +6026,6 @@ def check_file_size(file_path, file_size_limit_MB):
     file_size_mb = file_size_bytes / (1024 * 1024)
     if file_size_bytes > file_size_limit_MB * 1024 * 1024:
         raise ValueError(f"ERROR: File {file_path} is {round(file_size_mb, 1)} MB. Maximum limit is {file_size_limit_MB} MB.")
-
 
 def find_strings_with_substring(string_list, substring, location=None):
   """Finds strings in a list that contain a specified substring at a specified location.
@@ -6056,7 +6053,9 @@ def find_strings_with_substring(string_list, substring, location=None):
   return matching_strings
 
 
-def keep_first_n_words(string: str, n: int) -> str:
+# # def keep_first_n_words(string: str, n: int) -> str:
+# def keep_first_n_words(string, n):
+def keep_first_words(string, n):
   """Strips leading and trailing spaces, replaces inner spaces with underscores, and keeps only the first n words.
 
   Args:
