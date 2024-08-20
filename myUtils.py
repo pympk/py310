@@ -6028,48 +6028,45 @@ def check_file_size(file_path, file_size_limit_MB):
         raise ValueError(f"ERROR: File {file_path} is {round(file_size_mb, 1)} MB. Maximum limit is {file_size_limit_MB} MB.")
 
 def find_strings_with_substring(string_list, substring, location=None):
-  """Finds strings in a list that contain a specified substring at a specified location.
+    """Finds strings in a list that contain a specified substring at a specified location.
 
-  Args:
-    string_list: A list of strings.
-    substring: The substring to search for.
-    location: The location of the substring within the string. Can be None, 'start', or 'end'. Defaults to None.
+    Args:
+        string_list: A list of strings.
+        substring: The substring to search for.
+        location: The location of the substring within the string. Can be None, 'start', or 'end'. Defaults to None.
 
-  Returns:
-    A list of strings that contain the specified substring at the specified location.
-  """
+    Returns:
+        A list of strings that contain the specified substring at the specified location.
+    """
 
-  matching_strings = []
-  for string in string_list:
-    if location is None:
-      if substring.lower() in string.lower():
-        matching_strings.append(string)
-    elif location == 'start':
-      if string.lower().startswith(substring.lower()):
-        matching_strings.append(string)
-    elif location == 'end':
-      if string.lower().endswith(substring.lower()):
-        matching_strings.append(string)
-  return matching_strings
+    matching_strings = []
+    for string in string_list:
+        if location is None:
+            if substring.lower() in string.lower():
+                matching_strings.append(string)
+        elif location == 'start':
+            if string.lower().startswith(substring.lower()):
+                matching_strings.append(string)
+        elif location == 'end':
+            if string.lower().endswith(substring.lower()):
+                matching_strings.append(string)
+    return matching_strings
 
+def keep_first_n_words(string: str, n: int) -> str:
+    """Strips leading and trailing spaces, replaces inner spaces with underscores, and keeps only the first n words.
 
-# # def keep_first_n_words(string: str, n: int) -> str:
-# def keep_first_n_words(string, n):
-def keep_first_words(string, n):
-  """Strips leading and trailing spaces, replaces inner spaces with underscores, and keeps only the first n words.
+    Args:
+        string: The input string.
+        n: The number of words to keep.
 
-  Args:
-    string: The input string.
-    n: The number of words to keep.
+    Returns:
+        The modified string.
+    """
 
-  Returns:
-    The modified string.
-  """
-
-  stripped_string = ''.join(char for char in string if char.isalpha() or char.isspace())
-  # use space to split words, removes leading and trailing spaces
-  words = stripped_string.split()
-  first_n_words = ' '.join(words[:n])
-  result = first_n_words.replace(" ", "_")
-  return result
+    stripped_string = ''.join(char for char in string if char.isalpha() or char.isspace())
+    # use space to split words, removes leading and trailing spaces
+    words = stripped_string.split()
+    first_n_words = ' '.join(words[:n])
+    result = first_n_words.replace(" ", "_")
+    return result
 
