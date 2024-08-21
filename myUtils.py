@@ -6009,6 +6009,8 @@ def delete_all_rows(path_data_dump, filename_pickle, verbose=False):
         print(f'{filename_pickle} save to: {path_data_dump}{filename_pickle}\n\n')
     return None
 
+
+###############
 def check_file_size(file_path, file_size_limit_MB):
     """Checks the size of a file and raises an exception if it exceeds 25 MB.
 
@@ -6070,3 +6072,24 @@ def keep_first_n_words(string: str, n: int) -> str:
     result = first_n_words.replace(" ", "_")
     return result
 
+def extract_caption_text(file_path):
+  """Extracts caption text from srt file. Exact the third line and subsequent every fourth lines from a text file.
+
+  Args:
+    file_path: The path to the text file.
+
+  Returns:
+    A string containing the extracted lines with trailing spaces.
+  """
+
+  result_string = ""
+  line_number = 0
+
+  with open(file_path, 'r') as file:
+    for line in file:
+      line_number += 1
+      if line_number == 3 or (line_number - 3) % 4 == 0:
+        result_string += line.rstrip() + " "
+
+  # Remove the trailing space from the last line
+  return result_string.rstrip()
