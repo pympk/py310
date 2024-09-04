@@ -3633,7 +3633,7 @@ def yf_download_AdjOHLCV(symbols, verbose=False):
 
     return df
 
-def yf_download_AdjOHLCV_noAutoAdj(symbols, verbose=False):
+def yf_download_AdjOHLCV_noAutoAdj_arhive_2024_09_02(symbols, verbose=False):
     """Download daily adjusted OHLCV data for symbols, and return dataframe df.
     To fetch ajusted OHLCV data for symbol 'SPY', use df['SPY'].
 
@@ -3686,6 +3686,66 @@ def yf_download_AdjOHLCV_noAutoAdj(symbols, verbose=False):
         print('{}\n'.format('-'*78))
 
     return df
+
+
+def yf_download_AdjOHLCV_noAutoAdj(symbols, period="10y", verbose=False):
+    """Download daily adjusted OHLCV data for symbols, and return dataframe df.
+    To fetch ajusted OHLCV data for symbol 'SPY', use df['SPY'].
+
+    added function arugument: period  
+
+    Args:
+        symbols(list): list of symbols(i.e. ['SPY',...,'AAPL'])
+        period(str): "1m", "1h", "1d", "1wk", "1mo", "1y", default "10y"
+        verbose(bool): default False
+
+    Return:
+        df(dataframe): dataframe with adjusted OHLCV data for symbols,
+                       To fetch OHLCV data for symbol 'SPY', use df['SPY'].
+    """
+    # https://stackoverflow.com/questions/69192215/python-yfinance-api-how-to-get-close-share-price-instead-of-adjusted-close-share
+
+    import yfinance as yf
+
+    if verbose:
+        print('\n{}'.format('='*78))
+        print('+ def yf_download_AdjOHLCV_noAutoAdj(symbols, verbose=False)\n')
+
+    df = yf.download(  # or pdr.get_data_yahoo(...
+        # tickers list or string as well
+        # tickers = "SPY AAPL MSFT",
+        tickers=symbols,
+        # use "period" instead of start/end
+        # valid periods: 1d,5d,1mo,3mo,6mo,1y,2y,5y,10y,ytd,max
+        # (optional, default is '1mo')
+        period=period,
+        # fetch data by interval (including intraday if period < 60 days)
+        # valid intervals: 1m,2m,5m,15m,30m,60m,90m,1h,1d,5d,1wk,1mo,3mo
+        # (optional, default is '1d')
+        interval="1d",
+        # group by ticker (to access via data['SPY'])
+        # (optional, default is 'column')
+        group_by="ticker",
+        # adjust all OHLC automatically
+        # (optional, default is False)
+        auto_adjust=False,
+        # download pre/post regular market hours data
+        # (optional, default is False)
+        prepost=False,
+        # use threads for mass downloading? (True/False/Integer)
+        # (optional, default is True)
+        threads=True,
+        # proxy URL scheme use use when downloading?
+        # (optional, default is None)
+        proxy=None,
+    )
+    if verbose:    
+        print('- def yf_download_AdjOHLCV(symbols, verbose=False)')    
+        print('{}\n'.format('-'*78))
+
+    return df
+
+
 
 def yf_symbols_close_old(
     path_dir,
@@ -4846,6 +4906,11 @@ def yf_candlestick(symbol, df, plot_chart=True):
         symbol, date, UI_MW_short[-1], UI_MW_long[-1],
         diff_UI_MW_short[-1], diff_UI_MW_long[-1]
 
+        revised 2024-09-02
+        from: date = df.index[-1].strftime("%Y-%m-%d")
+        to:   date = df.index[-1]  # df index is in "yyyy-mm-dd" format 
+        
+
     Args:
         symbol(string): symbol for the dataframe df
         df(dataframe): dataframe with date index
@@ -5027,7 +5092,11 @@ def yf_candlestick(symbol, df, plot_chart=True):
     # +++++ Cache +++++
     # change date index from 2018-09-04 00:00:00 to 2018-09-04
     #   dtype also change from datetime64[ns] to object
-    date = df.index[-1].strftime("%Y-%m-%d")
+
+###############################################################################
+    # date = df.index[-1].strftime("%Y-%m-%d")
+    date = df.index[-1]  # df index is in "yyyy-mm-dd" format 
+    
     cache = (
         symbol,
         date,
@@ -6093,3 +6162,40 @@ def extract_caption_text(file_path):
 
   # Remove the trailing space from the last line
   return result_string.rstrip()
+
+
+def adjust_OHLC(data):
+    """
+    Adjusts the Open, High, Low, and Close prices of a pandas DataFrame to account for stock splits and dividends.
+
+    Args:
+        data (pandas.DataFrame): The input DataFrame containing stock data.
+
+    Returns:
+        pandas.DataFrame: The adjusted DataFrame with adjusted Open, High, Low, Close, and Volume columns.
+    """
+
+    df = data.copy()  # Create a copy of the input DataFrame to avoid modifying the original
+
+    # Calculate the ratio of Close to Adj Close to adjust other prices
+    ratio = df["Close"] / df["Adj Close"]
+
+    # Adjust Open, High, and Low prices using the ratio
+    df["Adj Open"] = df["Open"] / ratio
+    df["Adj High"] = df["High"] / ratio
+    df["Adj Low"] = df["Low"] / ratio
+
+    # Drop the original Open, High, Low, and Close columns
+    df.drop(["Open", "High", "Low", "Close"], axis=1, inplace=True)
+
+    # Rename the adjusted columns to the original names
+    df.rename(columns={
+        "Adj Open": "Open",
+        "Adj High": "High",
+        "Adj Low": "Low",
+        "Adj Close": "Close"
+    }, inplace=True)
+
+    # Return the adjusted DataFrame with the desired columns
+    return df[["Open", "High", "Low", "Close", "Volume"]]
+
