@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 from myUtils import pickle_load, pickle_dump
 from yf_utils import split_train_val_test, random_slices, lookback_slices
@@ -10,10 +11,18 @@ pd.set_option("display.max_columns", 30)
 pd.set_option("display.max_colwidth", 16)
 pd.set_option("display.width", 140)  # code-runner format
 
-path_dir = "C:/Users/ping/MyDrive/stocks/yfinance/"
+# path_dir = "C:/Users/ping/MyDrive/stocks/yfinance/"
+# path_data_dump = path_dir + "VSCode_dump/"
+# Get the user's home directory Documents folder
+path_dir = os.path.join(os.path.expanduser('~'), 'Documents/')
 path_data_dump = path_dir + "VSCode_dump/"
 
 fp_df_close_clean = "df_close_clean"
+
+print(f'path_dir: {path_dir}')
+print(f'path_data_dump: {path_data_dump}')
+
+
 
 #######################################################################
 ## SELECT RUN PARAMETERS.async Parameters can also be passed using papermill by running yf_7_freq_cnt_pm_.ipynb
