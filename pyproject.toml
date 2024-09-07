@@ -38,6 +38,8 @@ pytubefix = "^6.9.2"
 yfinance = "^0.2.43"
 plotly = "^5.24.0"
 ta-lib = "^0.4.32"
+nbconvert = "^7.16.4"
+pyzmq = "^26.2.0"
 
 
 [build-system]
