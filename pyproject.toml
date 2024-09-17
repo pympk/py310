@@ -40,6 +40,8 @@ plotly = "^5.24.0"
 ta-lib = "^0.4.32"
 nbconvert = "^7.16.4"
 pyzmq = "^26.2.0"
+pytesseract = "^0.3.13"
+pillow = "^10.4.0"
 
 
 [build-system]
