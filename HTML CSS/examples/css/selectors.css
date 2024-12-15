@@ -1,0 +1,100 @@
+/* https://developer.mozilla.org/en-US/docs/Web/CSS/Cascade */
+/* https://www.youtube.com/watch?v=FHZn6706e3Q&list=PL4cUxeGkcC9ivBf_eKCPIAYXWzLlPAm6G&index=5 */
+/* Press Ctrl + Shift + Space (Windows/Linux) or Cmd + Shift + Space (macOS) to trigger parameter hints. */
+
+/*
+
+p {
+  color: red;
+}
+
+/* USe . for class hooks _/
+p.error {
+  color: blueviolet;
+}
+p.success {
+  color: rgb(84, 228, 98);
+}
+p.success.feedback {
+  border: 2px dashed rgb(84, 228, 98);
+  border-color: brown;
+}
+/* Use # for id hooks, this is a BAD practice, standard is to use class for css hooks _/
+div#content {
+  background-color: #ebebeb;
+  padding: 20px;
+}
+
+*/
+
+/* 
+/* Descendent sector, target p inside of div _/
+div p {
+  color: purple;
+} 
+*/
+
+/* Descendent selector, class="error" inside div
+div .error {
+  color: green;
+} */
+
+/* With selector, div with class="error"
+div.error {
+  color: blueviolet;
+} */
+
+/* Attribute selectors: class, href */
+/* a[href] {
+  background-color: #3dd13d;
+} */
+/* a[href="https://www.nvidia.com/en-us/"]
+{
+  background-color: #3dd13d;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  text-transform: uppercase;
+} */
+/* href with "google" */
+/* a[href*="google"] {
+  background-color: red;
+  color: white;
+  font-weight: bold;
+  text-transform: capitalize;
+} */
+/* href ends in .com */
+/* a[href$=".com"] {
+  background-color: red;
+  color: white;
+  font-weight: bold;
+  text-transform: capitalize;
+} */
+
+/* == Cascade: inheritance: specificity == */
+/* inheritance, p inherited div's color */
+/* p {
+  border: 4px dashed blue;
+  margin: 10px;
+} */
+div {
+  /* text properties are inherited */
+  color: lightcoral; /* color is inherited */
+  font-weight: bold; /* font-weight is inherited */
+  /* border, margin and padding are not inherited */
+  border: 1px solid gray; /* border is not inherited */
+  margin: 40px; /* margin is not inherited */
+}
+div p {
+  /* text properties are inherited */
+  color: green; /* color is inherited */
+  font-weight: normal; /* font-weight is inherited */
+  /* border, margin and padding are not inherited */
+  border: 1px solid gray; /* border is not inherited */
+  margin: 40px; /* margin is not inherited */
+}
+p {
+  color: blue; /* override inheritance */
+  border: inherit;
+  margin: inherit;
+}

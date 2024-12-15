@@ -42,6 +42,9 @@ nbconvert = "^7.16.4"
 pyzmq = "^26.2.0"
 pytesseract = "^0.3.13"
 pillow = "^10.4.0"
+einops = "^0.8.0"
+datasets = "^3.0.1"
+python-fasthtml = "^0.8.0"
 
 
 [build-system]

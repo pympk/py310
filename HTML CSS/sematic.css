@@ -1,0 +1,50 @@
+header {
+  /* position: static; */
+  /*
+  position: relative;
+  left: 100px; 
+  top: 100px;
+  */
+}
+
+/* target class="banner" */
+.banner {
+  position: relative;
+}
+
+/* target class="banner" img */
+.banner img {
+  /* max-width: -webkit-fill-available; */
+  max-width: 100%;
+}
+
+/*
+.banner .welcome {
+  background-color: #feb614;
+  position: absolute;
+  color: white;
+  font-size: 30em;
+  padding: inherit;
+  left: 0;
+  top: 30%;
+}
+*/
+
+.banner .welcome {
+  position: absolute;
+  top: 30%;
+  /* left: 10%; */
+  transform: translate(0, -50%);
+  font-size: 3vw; /* Adjust font size based on viewport width */
+  background-color: #feb614;
+  color: white;
+  padding: 0px;
+}
+
+.banner h2 {
+  /* font-size: 74px; */
+}
+
+.banner h2 span {
+  font-size: 1.0em; /* 1.4 x of inherited font size */
+}

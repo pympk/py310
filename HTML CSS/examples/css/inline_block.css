@@ -1,0 +1,15 @@
+/* change span tag from inline to block */
+span {
+  /* display: block; */
+  display: inline-block;
+  margin: 20px;
+  padding: 10px;
+}
+
+/* change div tag from block to inline */
+div {
+  /* display: inline; */
+  border: 2px solid crimson;
+  margin: 20px;
+  padding: 10px;
+}

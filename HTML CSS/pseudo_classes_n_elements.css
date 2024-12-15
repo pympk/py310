@@ -1,0 +1,254 @@
+body,
+ul,
+li,
+h1,
+.welcome h2,
+a {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+header {
+  background-color: #f63232;
+  padding: 20px;
+  text-align: center;
+  position: fixed;
+  width: 100%;
+  z-index: 1;
+  top: 0;
+  left: 0;
+}
+
+header h1 {
+  color: white;
+  border: 8px solid white;
+  padding: 6px 12px;
+  display: inline-block;
+  border-radius: 36px;
+}
+
+/* target class="banner" */
+.banner {
+  position: relative;
+}
+
+/* target class="banner" img */
+.banner img {
+  /* max-width: -webkit-fill-available; */
+  max-width: 100%;
+}
+
+.banner .welcome {
+  background-color: #feb614;
+  color: white;
+  padding: 30px;
+  position: absolute;
+  left: 0;
+  top: 30%;
+}
+
+/* ping mod
+.banner .welcome {
+  position: absolute;
+  bottom: 0%;
+  left: 3%;
+  transform: translate(0, -50%);
+  /* Adjust font size based on viewport width ?/
+  font-size: 3vw;
+  background-color: #feb614;
+  color: white;
+  padding: 20px;
+}
+*/
+
+.banner .welcome h2 {
+  /* font-size: 74px; */
+  margin: 0;
+}
+
+/* 1.4 x of inherited font size */
+/* .banner .welcome h2 span {
+  font-size: 1.4em;
+} */
+
+nav {
+  background-color: #f4f4f4;
+  padding: 20px;
+  position: sticky;
+  top: 105px; /* nav sticky when reach __px from the top */
+}
+
+nav ul {
+  white-space: nowrap;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0%;
+}
+
+nav li {
+  width: 25%;
+  display: inline-block;
+  font-size: 24px;
+  /* text-align: center; */
+}
+
+nav li a {
+  text-decoration: none;
+  color: #4b4b4b;
+}
+
+nav li a.join {
+  color: #f63232;
+}
+
+main {
+  max-width: 100%;
+  width: 1200px;
+  margin: 80px auto;
+  padding: 0 40px;
+  box-sizing: border-box;
+}
+
+article .welcome h2 {
+  color: #f63232;
+  font-size: 48px;
+}
+
+article p {
+  line-height: 2em;
+  color: #4b4b4b;
+}
+
+.images {
+  text-align: center;
+  margin: 80px, 0;
+  white-space: nowrap; /* force images display as inline-block */
+}
+
+.images li {
+  display: inline-block;
+  width: 40%;
+  margin: 20px 5%;
+}
+
+.images li img {
+  max-width: 100%;
+}
+
+section.join {
+  background-color: #f4f4f4;
+  text-align: center;
+  /* 60px top and bottom, 20px left and right */
+  padding: 60px 20px;
+  color: #4b4b4b;
+}
+
+.join .welcome h2 {
+  font-size: 36px;
+}
+
+form input {
+  margin: 20px 0;
+  padding: 10px 20px;
+  font-size: 24px;
+  border-radius: 28px;
+  border: 4px solid white;
+}
+
+footer {
+  background-color: #f63232;
+  color: white;
+  text-align: center;
+  padding: 10px;
+}
+
+/* Pseudo classes and elements */
+nav li a:hover {
+  text-decoration: underline;
+  /* color: red; */
+}
+
+.images li:hover {
+  position: relative;
+  top: -4px; /* move the image up by 4 px */
+}
+form input:hover {
+  border: 4px dashed #4b4b4b;
+}
+form input:valid {
+  border: 4px solid #71d300;
+}
+article p::first-line {
+  font-weight: bold;
+  font-size: 1.2em;
+}
+section.join p::first-letter {
+  font-weight: bold;
+  font-size: 1.1em;
+}
+/* section.join p::selection {
+  background-color: #f63232;
+  color: white;
+} */
+p::selection {
+  background-color: #f63232;
+  color: white;
+}
+p::after {
+  content: "....";
+}
+
+/* Response styles */
+/* style applies to 1400px and less */
+@media screen and (max-width: 1400px) {
+  .banner .welcome h2 {
+    font-size: 60px;
+  }
+  nav li {
+    font-size: 18px;
+  }
+}
+/* style applies to 960px and less */
+@media screen and (max-width: 960px) {
+  .banner .welcome h2 {
+    font-size: 40px;
+  }
+}
+/* style applies to 700px and less */
+@media screen and (max-width: 700px) {
+  .banner .welcome {
+    position: relative;
+    text-align: center;
+    padding: 10px;
+  }
+  .banner .welcome br {
+    display: none;
+  }
+  .banner .welcome h2 {
+    font-size: 25px;
+  }
+  .banner .welcome span {
+    font-size: 1em;
+  }
+  .images li {
+    width: 100%;
+    display: block;
+    margin: 20px auto;
+  }
+}
+/* style applies to 560px and less */
+@media screen and (max-width: 560px) {
+  nav li {
+    font-size: 20px;
+    display: block;
+    width: 100%;
+    margin: 12px 0;
+  }
+  header {
+    position: relative;
+  }
+  nav {
+    top: 0;
+  }
+}
