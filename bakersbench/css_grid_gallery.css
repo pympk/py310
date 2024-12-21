@@ -1,0 +1,56 @@
+/* https://www.youtube.com/watch?v=rnhoY5Cdmy0&t=64s */
+
+:root {
+  --primary-color: #2960ad; /* logo blue color */
+  --navbar-color: #f0f0f0; /* off-white color */
+  --background-color: #f8f8f8; /* very light gray color */
+  --primary-text: #333333; /* dark gray color */
+  --accent-text: #2960ad; /* logo blue color */
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.image-grid {
+  --gap: 16px;
+  --num-cols: 4;
+  --row-height: 300px;
+  box-sizing: border-box;
+  padding: var(--gap);
+  display: grid;
+  grid-template-columns: repeat(var(--num-cols), 1fr);
+  grid-auto-rows: var(--row-height);
+  gap: var(--gap);
+  background-color: var(--background-color);
+}
+
+.image-grid img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-grid-col-2 {
+  grid-column: span 2;
+}
+
+.image-grid-row-2 {
+  grid-row: span 2;
+}
+
+/* switching from desktop to tablet layout */
+@media (max-width: 992px) {
+  .image-grid {
+    --num-cols: 3;
+    --row-height: 300px * 3/4;
+  }
+}
+/* switching from tablet to mobile layout */
+@media (max-width: 768px) {
+  .image-grid {
+    --num-cols: 2;
+    --row-height: 300px * 2/4;
+  }
+}
