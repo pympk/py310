@@ -1,0 +1,405 @@
+/* Basic CSS Reset */
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+body,
+nav,
+ul,
+li,
+h1,
+a,
+.navbar,
+.banner,
+.testimonial h2,
+.testimonial p {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+  font-size: 3.6vw;
+  font-weight: 400;
+  box-sizing: border-box;
+  letter-spacing: 1px;
+}
+
+/* Color recommended by Gemini AI
+#2960ad (Your Logo Blue) logo and nav_text
+#F0F0F0 (Off-White) navbar background
+
+#F8F8F8 (Very Light Gray) background color
+#333333 (Dark Gray) primary text
+#2960ad (Your Logo Blue) accent text
+*/
+:root {
+  --primary-color: #2960ad;
+  --navbar-text: #fff;
+  --nav-links-hover: #c7d2e7;
+  --background-color: #f8f8f8;
+  --primary-text: #333333;
+  --accent-text: #2960ad;
+}
+
+.announcement {
+  background-color: orange;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* ============= */
+
+body {
+  position: relative;
+}
+
+.topnav {
+  overflow: hidden;
+  background-color: var(--primary-color);
+  display: flex;
+  height: 14vw;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 1000;
+  position: sticky;
+  top: 0;
+}
+
+.topnav .icon {
+  color: var(--navbar-text);
+  display: flex;
+  align-items: center;
+}
+
+.topnav a.icon img {
+  height: 7vw;
+  align-items: center;
+  padding-left: 3vw;
+  object-fit: cover;
+}
+
+.topnav a:last-child {
+  text-decoration: none;
+  font-size: 7vw;
+  padding-right: 3vw;
+}
+
+.topnav-links {
+  display: none;
+  flex-direction: column;
+  padding-left: 3vw;
+  font-size: 7vw;
+  /* position: absolute;
+  top: 14vw;
+  z-index: 1000; */
+}
+
+.topnav-links a {
+  text-decoration: none;
+  color: black;
+}
+
+#myLinksTop {
+  position: absolute;
+  top: 14vw;
+  left: 0;
+  width: 15%;
+  height: 20vw;
+  z-index: 10;
+  padding: 3vw;
+  /* background-color: #78bddfd7; */
+  background-color: var(--navbar-text);
+}
+#myLinksTop a {
+  padding-top: 3vw;
+}
+/* =============== */
+
+.hero {
+  width: 100%;
+  height: 80vw;
+}
+
+.slideshow-container {
+  position: relative;
+  margin: auto;
+}
+
+/* Hide the images by default */
+.mySlides {
+  display: none;
+  width: 100%;
+  /* height: 80vw; */
+}
+
+.mySlides img {
+  width: 100%;
+  height: 80vw;
+  object-fit: cover;
+}
+
+/* Next & previous buttons */
+.prev,
+.next {
+  cursor: pointer;
+  position: absolute;
+
+  top: auto;
+  bottom: 30%;
+
+  width: auto;
+  margin-top: 0px;
+  padding: 2vw;
+  color: white;
+  font-weight: bold;
+  font-size: 3.6vw;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* ============ */
+/* Make the image's parent the positioning context */
+section.hero .slideshow-container {
+  position: relative; /* This makes the slideshow-container the containing block */
+}
+
+/* ============ */
+
+/* Fades after clicked, add a black background color with a little bit see-through */
+.prev,
+.next {
+  transition: background-color 2s;
+}
+
+.prev:active,
+.next:active {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Fading animation */
+.fade {
+  animation-name: fade;
+  animation-duration: 2s;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.banner {
+  width: 100%;
+  background-color: #a5b3c154;
+  text-align: center;
+  padding: 5vw;
+}
+
+.banner h2 {
+  font-weight: 500;
+  font-style: italic;
+}
+
+.banner h2 .bold-text {
+  font-weight: 502;
+}
+
+.testimonials {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  background-color: var(--background-color);
+}
+
+.testimonials:first-child {
+  margin-top: 12vw;
+  padding: 8vw;
+  width: 75%;
+}
+
+.testimonial {
+  /* margin-top: 12vw; */
+  padding: 8vw;
+
+  /* border: 1px solid #ddd;
+  border-radius: 10px; */
+
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+  width: 75%;
+}
+.testimonial cite {
+  color: black;
+  font-size: 4vw;
+  font-style: italic;
+  font-weight: 800;
+}
+.testimonial cite a {
+  color: black;
+  text-decoration: underline;
+  font-size: 4vw;
+  font-style: italic;
+  font-weight: 800;
+}
+
+.testimonial:first-child {
+  margin-top: 4em;
+}
+
+.testimonial:last-child {
+  margin-bottom: 16vw;
+}
+
+.testimonial h2 {
+  font-size: 3.6vw;
+  font-style: italic;
+  font-weight: 600;
+  margin: 1em;
+  color: #666;
+  line-height: 150%;
+  letter-spacing: 1px;
+}
+
+.testimonial p {
+  font-size: 3.6vw;
+  font-style: italic;
+  margin: 1em;
+  color: #666;
+  line-height: 150%;
+  letter-spacing: 1px;
+}
+
+.footer {
+  background-color: var(--primary-color);
+  color: var(--navbar-text);
+  padding: 3rem 1rem 1rem 1rem;
+}
+
+.footer-content {
+  margin: 0 4vw 0 4vw;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.footer-content .spacer {
+  flex-grow: 1;
+}
+
+.footer-section {
+  margin-bottom: 2rem;
+  width: 36%;
+}
+
+.footer-section h2 {
+  margin-top: 0;
+  font-size: 3.4vw;
+  margin-bottom: 2vw;
+}
+
+.footer-section a,
+li {
+  color: var(--navbar-text);
+  font-size: 2.8vw;
+  padding-bottom: 2vw;
+}
+.footer-section p {
+  color: var(--navbar-text);
+  font-size: 2.8vw;
+  padding-bottom: 2vw;
+}
+.footer-section ul li:last-child {
+  padding-bottom: 4vw;
+}
+
+.footer-bottom {
+  background-color: #333;
+  color: var(--navbar-text);
+  padding: 1em;
+  text-align: center;
+  clear: both;
+  border-radius: 5px;
+}
+
+.footer-bottom p {
+  margin-bottom: 0;
+  font-size: 3.2vw;
+  font-size: 2.8vw;
+}
+
+.about-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1em 1em;
+}
+
+.about-image-top {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.about-image {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  margin-bottom: 1em;
+}
+
+.about-text p {
+  font-size: 3.6vw;
+  font-style: italic;
+  margin: 1em;
+  color: #666;
+  line-height: 150%;
+  letter-spacing: 1px;
+}
+
+.about-text a {
+  font-size: 3.2vw;
+}
+
+.about-text p:last-child {
+  padding-bottom: 3em;
+}
+
+.accessibility-text p {
+  font-size: 3.2vw;
+  padding: 10vw;
+}
+.accessibility-text p {
+  font-size: 3.6vw;
+  font-style: italic;
+  margin: 1em;
+  color: #666;
+  line-height: 180%;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+.accessibility-text p span {
+  font-size: 3.6vw;
+  font-style: italic;
+  font-weight: 800;
+}
+
+/* @media only screen and (max-width: 768px) {
+  body,
+  .testimonial p {
+    font-size: 16px;
+    font-weight: 600;
+  }
+} */

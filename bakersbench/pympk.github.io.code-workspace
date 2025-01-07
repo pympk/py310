@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "../py310"
+		},
+		{
+			"name": "pympk.github.io",
+			"path": "."
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "pympk.github.io"
+	}
+}

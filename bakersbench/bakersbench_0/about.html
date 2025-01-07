@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <![endif]-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <title>Bakers Bench</title>
+    <link
+      rel="shortcut icon"
+      href="../img/logos/favicon.ico"
+      type="image/x-icon"
+    />
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <nav>
+      <img src="../img/logos/abblogo_white.png" alt="Bakers Bench Logo" />
+      <h1>Bakers Bench</h1>
+
+      <div
+        class="nav_menu"
+        tabindex="0"
+        aria-label="Toggle navigation menu"
+        aria-haspopup="true"
+        aria-expanded="false"
+        onclick="toggleNav()"
+      >
+        <!-- Hamburger menu icon -->
+        <div class="nav_menu" onclick="toggleNav()">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+
+      <ul class="nav-links" role="navigation">
+        <li>
+          <a href="index.html" tabindex="0" aria-label="Home">Home</a>
+        </li>
+        <li>
+          <a href="about.html" class="active" tabindex="0" aria-label="About"
+            >About</a
+          >
+        </li>
+      </ul>
+    </nav>
+
+    <div class="about-container">
+      <img
+        src="../img/aDSC06407BB17.jpg"
+        alt="Bakers Bench team"
+        class="about-image-top"
+      />
+      <div class="about-text">
+        <p>
+          Bakers Bench strives to make the best pastries, vegan or otherwise.
+          Our pastries are baked fresh every morning in a kitchen shared with
+          dairy, nuts, soy and eggs.
+        </p>
+        <p>
+          Please follow us on
+          <a href="https://www.instagram.com/bakers.bench/" target="_blank"
+            >Instagram</a
+          >
+          for more updates. We can't wait to see you in our new home.
+        </p>
+      </div>
+      <img
+        src="../img/aDSC06295BB02.jpg"
+        alt="Bakers Bench owner"
+        class="about-image"
+      />
+      <div class="about-text">
+        <p>
+          Owner and baker Jennifer Yee was born and raised in the San Gabriel
+          Valley. After working at multiple Michelin-starred kitchens across the
+          country (The French Laundry, Jean-Georges, Gilt and more), she
+          returned to LA in 2018 and became the pastry chef of Konbi (<a
+            href="https://www.bonappetit.com/story/hot-10-best-new-restaurants-2019"
+            target="_blank"
+            >2019 Bon Appétit’s Best New Restaurant</a
+          >). After making many of Konbi’s famed croissants, she turned her
+          attention to another challenge: making the best vegan croissant.
+        </p>
+      </div>
+      <p></p>
+    </div>
+
+    <!-- <script src="" async defer></script> -->
+    <script>
+      const navMenu = document.querySelector(".nav_menu");
+      const navLinks = document.querySelector(".nav-links");
+
+      navMenu.addEventListener("click", toggleNav);
+      navMenu.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          toggleNav();
+        }
+      });
+
+      function toggleNav() {
+        const navMenu = document.querySelector(".nav_menu");
+        const navLinks = document.querySelector(".nav-links");
+        navLinks.classList.toggle("show");
+        navMenu.ariaExpanded = navLinks.classList.contains("show");
+      }
+    </script>
+  </body>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <!-- <div class="footer-section">
+        <h3>About Us</h3>
+        <p>
+          We're passionate about baking and dedicated to providing the best
+          experience for our customers.
+        </p>
+      </div> -->
+      <div class="footer-section">
+        <!-- <h3>Hours & Location</h3> -->
+        <h2>Hours & Location</h2>
+        <p>
+          <a href="https://maps.app.goo.gl/t5m62bCyVpmE3vqQ8" target="_blank"
+            >1021 Alpine, Bldg A, Los Angeles, California 90012</a
+          >
+        </p>
+        <p>Mon - Fri: &nbsp;8-3 <br />Sat - Sun: &nbsp;8-4</p>
+      </div>
+      <div class="footer-section">
+        <h2>Follow Us</h2>
+        <ul>
+          <li>
+            <a href="https://www.instagram.com/bakers.bench/" target="_blank"
+              >Instagram</a
+            >
+          </li>
+          <li>
+            <a href="mailto:hello@bakersbenchla.com">Email</a>
+          </li>
+        </ul>
+        <h2>Resources</h2>
+        <ul>
+          <li>
+            <a href="accessibility.html">Accessibility</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 Bakers Bench. All rights reserved.</p>
+    </div>
+  </footer>
+</html>

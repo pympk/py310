@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    />
+    <link rel="stylesheet" href="layout_gemini.css" />
+  </head>
+  <body>
+    <nav>
+      <img src="../img/logos/abblogo_white.png" alt="Bakers Bench Logo" />
+      <h1>Bakers Bench</h1>
+
+      <div
+        class="nav_menu"
+        tabindex="0"
+        aria-label="Toggle navigation menu"
+        aria-haspopup="true"
+        aria-expanded="false"
+        onclick="toggleNav()"
+      >
+        <div class="nav_menu" onclick="toggleNav()">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+
+      <ul class="nav-links" role="navigation">
+        <li>
+          <a href="index.html" class="active" tabindex="0" aria-label="Home"
+            >Home</a
+          >
+        </li>
+        <li><a href="about.html" tabindex="0" aria-label="About">About</a></li>
+      </ul>
+    </nav>
+
+    <section class="hero">
+      <div class="slideshow-container">
+        <div class="mySlides fade">
+          <img src="../img/BB2_0.jpg" alt="Image 1" />
+        </div>
+
+        <div class="mySlides fade">
+          <img src="../img/aBB2_1.jpg" alt="Image 2" />
+        </div>
+
+        <div class="mySlides fade">
+          <img src="../img/aBB2_2.jpg" alt="Image 3" />
+        </div>
+
+        <a class="prev" onclick="plusSlides(-1)">❮</a>
+        <a class="next" onclick="plusSlides(1)">❯</a>
+      </div>
+    </section>
+
+    <main class="main">
+      <section class="banner">
+        <h2>Where Plant-Based Goodness Meets Exceptional Taste</h2>
+      </section>
+
+      <section class="testimonials">
+        <div class="testimonial">
+          <cite>— New York Times</cite>
+          <h2>22 of the Best Bakeries Across the U.S. Right Now</h2>
+          <p>"... from coastal Maine to downtown Los Angeles."</p>
+        </div>
+        <div class="testimonial">
+          <cite>— StarChefs</cite>
+          <h2>2024 StarChefs Los Angeles Rising Stars Award Winner</h2>
+        </div>
+        <div class="testimonial">
+          <cite>— Los Angeles Times</cite>
+          <p>
+            "...what makes these vegan croissants shine is the work and
+            attention to detail. The process for her croissants takes four
+            days."
+          </p>
+        </div>
+        <div class="testimonial">
+          <cite>— Eater</cite>
+          <p>
+            "Some of LA's Best Vegan Croissants Are Headed to Victor Heights."
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h2>Hours & Location</h2>
+          <p>
+            <a href="https://maps.app.goo.gl/t5m62bCyVpmE3vqQ8" target="_blank">
+              1021 Alpine, Bldg A, Los Angeles, California 90012
+            </a>
+          </p>
+
+          <p>Mon - Fri:  8-3 <br />Sat - Sun:  8-4</p>
+        </div>
+        <div class="footer-section">
+          <h2>Follow Us</h2>
+          <ul>
+            <li>
+              <a href="https://www.instagram.com/bakers.bench/" target="_blank"
+                >Instagram</a
+              >
+            </li>
+            <li><a href="mailto:hello@bakersbenchla.com">Email</a></li>
+          </ul>
+          <h2>Resources</h2>
+          <ul>
+            <li><a href="accessibility.html">Accessibility</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2024 Bakers Bench. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      const navMenu = document.querySelector(".nav_menu");
+      const navLinks = document.querySelector(".nav-links");
+
+      navMenu.addEventListener("click", toggleNav);
+      navMenu.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          toggleNav();
+        }
+      });
+
+      function toggleNav() {
+        const navMenu = document.querySelector(".nav_menu");
+        const navLinks = document.querySelector(".nav-links");
+        navLinks.classList.toggle("show");
+        navMenu.ariaExpanded = navLinks.classList.contains("show");
+      }
+
+      let slideIndex = 1;
+      showSlides(slideIndex);
+
+      // Next/previous controls
+      function plusSlides(n) {
+        showSlides((slideIndex += n));
+      }
+
+      function showSlides(n) {
+        let i;
+        let slides = document.getElementsByClassName("mySlides");
+        if (n > slides.length) {
+          slideIndex = 1;
+        }
+        if (n < 1) {
+          slideIndex = slides.length;
+        }
+        for (i = 0; i < slides.length; i++) {
+          slides[i].style.display = "none";
+        }
+        slides[slideIndex - 1].style.display = "block";
+      }
+    </script>
+  </body>
+</html>

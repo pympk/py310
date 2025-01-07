@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <title>Bakers Bench</title>
+    <link
+      rel="shortcut icon"
+      href="./img/logos/favicon.ico"
+      type="image/x-icon"
+    />
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    />
+    <!-- Load an icon library to show a hamburger menu (bars) on small screens -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="topnav">
+      <a href="#home" class="icon"
+        ><img src="./img/logos/abblogo_white.png" alt="Logo"
+      /></a>
+
+      <a href="javascript:void(0);" class="icon" onclick="myFunctionTop()">
+        <i class="fa fa-bars"></i>
+      </a>
+    </div>
+
+    <section class="hero">
+      <div class="topnav-links" id="myLinksTop">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+      </div>
+      <div class="slideshow-container">
+        <div class="mySlides fade">
+          <img src="./img/aBB2_0.jpg" alt="Image 1" />
+        </div>
+
+        <div class="mySlides fade">
+          <img src="./img/aBB2_1.jpg" alt="Image 2" />
+        </div>
+
+        <div class="mySlides fade">
+          <img src="./img/aBB2_5.jpg" alt="Image 3" />
+        </div>
+
+        <div class="mySlides fade">
+          <img src="./img/aBB2_7.jpg" alt="Image 4" />
+        </div>
+
+        <div class="mySlides fade">
+          <img src="./img/aBB2_10.jpg" alt="Image 5" />
+        </div>
+
+        <div class="mySlides fade">
+          <img src="./img/aDSC06313BB05.jpg" alt="Image 6" />
+        </div>
+
+        <div class="mySlides fade">
+          <img src="./img/aDSC06312BB04.jpg" alt="Image 7" />
+        </div>
+
+        <a class="prev" onclick="plusSlides(-1)">❮</a>
+        <a class="next" onclick="plusSlides(1)">❯</a>
+      </div>
+    </section>
+
+    <section class="announcement">
+      <!-- <p>Special message goes here.</p> -->
+    </section>
+
+    <main class="main">
+      <section class="banner">
+        <h2>
+          Where <span class="bold-text">Plant-Based</span> Goodness Meets
+          <span class="bold-text">Exceptional&nbsp;Taste</span>
+        </h2>
+      </section>
+
+      <section class="testimonials">
+        <div class="testimonial">
+          <cite
+            >—
+            <a
+              href="https://www.nytimes.com/article/best-bakeries-america.html?unlocked_article_code=1.j04.ICLm.Zzw7n5aRTps3&smid=nytcore-ios-share&referringSource=articleShare&tgrp=on"
+              target="_blank"
+              >New York Times</a
+            ></cite
+          >
+          <h2>22 of the Best Bakeries Across the U.S. Right Now</h2>
+          <p>"... from coastal Maine to downtown Los Angeles."</p>
+        </div>
+
+        <div class="testimonial">
+          <cite
+            >—
+            <a
+              href="https://www.starchefs.com/profiles/jennifer-yee"
+              target="_blank"
+              >StarChefs</a
+            ></cite
+          >
+
+          <h2>2024 StarChefs Los Angeles Rising Stars Award Winner</h2>
+        </div>
+
+        <div class="testimonial">
+          <cite
+            >—
+            <a
+              href="https://la.eater.com/2024/5/22/24162259/bakers-bench-vegan-bakery-opening-victor-heights"
+              target="_blank"
+              >Eater</a
+            ></cite
+          >
+          <h2>
+            Some of LA's Best Vegan Croissants Are Headed to Victor Heights
+          </h2>
+        </div>
+        <div class="testimonial">
+          <cite>— Los Angeles Times</cite>
+          <p>
+            "...what makes these vegan croissants shine is the work and
+            attention to detail. The process for her croissants takes four
+            days."
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h2>Location & Hours</h2>
+          <p>
+            <a href="https://maps.app.goo.gl/t5m62bCyVpmE3vqQ8" target="_blank">
+              1021 Alpine, Los Angeles, California 90012
+            </a>
+          </p>
+
+          <p>Mon - Fri:  8-3 <br />Sat - Sun:  8-4</p>
+        </div>
+        <!-- <div class="text spacer">&nbsp&nbsp&nbsp&nbsp&nbsp</div> -->
+        <div class="spacer"></div>
+        <div class="footer-section">
+          <h2>Contact</h2>
+          <ul>
+            <li>213-395-0035</li>
+            <li><a href="mailto:hello@bakersbenchla.com">Email</a></li>
+            <li>
+              <a href="https://www.instagram.com/bakers.bench/" target="_blank"
+                >Instagram</a
+              >
+            </li>
+          </ul>
+          <h2>Resources</h2>
+          <ul>
+            <li><a href="accessibility.html">Accessibility</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2024 Bakers Bench. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      let slideIndex = 1;
+      showSlides(slideIndex);
+
+      // Next/previous controls
+      function plusSlides(n) {
+        showSlides((slideIndex += n));
+      }
+
+      function showSlides(n) {
+        let i;
+        let slides = document.getElementsByClassName("mySlides");
+        if (n > slides.length) {
+          slideIndex = 1;
+        }
+        if (n < 1) {
+          slideIndex = slides.length;
+        }
+        for (i = 0; i < slides.length; i++) {
+          slides[i].style.display = "none";
+        }
+        slides[slideIndex - 1].style.display = "block";
+      }
+
+      const faBars = document.querySelector("i.fa.fa-bars");
+      const myLinksTop = document.querySelector("#myLinksTop");
+
+      faBars.addEventListener("click", () => {
+        if (myLinksTop.style.display === "flex") {
+          myLinksTop.style.display = "none";
+        } else {
+          myLinksTop.style.display = "flex";
+        }
+      });
+    </script>
+  </body>
+</html>

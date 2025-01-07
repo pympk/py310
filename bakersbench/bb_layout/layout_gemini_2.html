@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    />
+    <link rel="stylesheet" href="layout_gemini_2.css" />
+  </head>
+  <body>
+    <section class="announcement">
+      <!-- <p>Special message goes here.</p> -->
+    </section>
+    <nav class="navbar">
+      <div>
+        <img src="../img/logos/abblogo_white.png" alt="Bakers Bench Logo" />
+      </div>
+
+      <div class="text left">Bakers Bench</div>
+      <div class="text spacer"></div>
+
+      <div class="text right">Location</div>
+      <div class="text right">Instagram</div>
+
+      <div class="text right">About</div>
+    </nav>
+
+    <section class="hero">
+      <div class="slideshow-container">
+        <div class="mySlides fade">
+          <img src="../img/BB2_0.jpg" alt="Image 1" />
+        </div>
+
+        <div class="mySlides fade">
+          <img src="../img/aBB2_1.jpg" alt="Image 2" />
+        </div>
+
+        <div class="mySlides fade">
+          <img src="../img/aBB2_2.jpg" alt="Image 3" />
+        </div>
+
+        <a class="prev" onclick="plusSlides(-1)">❮</a>
+        <a class="next" onclick="plusSlides(1)">❯</a>
+      </div>
+    </section>
+
+    <main class="main">
+      <section class="banner">
+        <h2>
+          Where <span class="bold-text">Plant-Based</span> Goodness Meets
+          <span class="bold-text">Exceptional&nbsp;Taste</span>
+        </h2>
+      </section>
+
+      <section class="testimonials">
+        <div class="testimonial">
+          <cite>— New York Times</cite>
+          <h2>22 of the Best Bakeries Across the U.S. Right Now</h2>
+          <p>"... from coastal Maine to downtown Los Angeles."</p>
+        </div>
+        <div class="testimonial">
+          <cite>— StarChefs</cite>
+          <h2>2024 StarChefs Los Angeles Rising Stars Award Winner</h2>
+        </div>
+        <div class="testimonial">
+          <cite>— Los Angeles Times</cite>
+          <p>
+            "...what makes these vegan croissants shine is the work and
+            attention to detail. The process for her croissants takes four
+            days."
+          </p>
+        </div>
+        <div class="testimonial">
+          <cite>— Eater</cite>
+          <p>
+            "Some of LA's Best Vegan Croissants Are Headed to Victor Heights."
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h2>Location & Hours</h2>
+          <p>
+            <a href="https://maps.app.goo.gl/t5m62bCyVpmE3vqQ8" target="_blank">
+              1021 Alpine, Los Angeles, California 90012
+            </a>
+          </p>
+
+          <p>Mon - Fri:  8-3 <br />Sat - Sun:  8-4</p>
+        </div>
+        <div class="footer-section">
+          <h2>Follow Us</h2>
+          <ul>
+            <li>
+              <a href="https://www.instagram.com/bakers.bench/" target="_blank"
+                >Instagram</a
+              >
+            </li>
+            <li><a href="mailto:hello@bakersbenchla.com">Email</a></li>
+          </ul>
+          <h2>Resources</h2>
+          <ul>
+            <li><a href="accessibility.html">Accessibility</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2024 Bakers Bench. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      let slideIndex = 1;
+      showSlides(slideIndex);
+
+      // Next/previous controls
+      function plusSlides(n) {
+        showSlides((slideIndex += n));
+      }
+
+      function showSlides(n) {
+        let i;
+        let slides = document.getElementsByClassName("mySlides");
+        if (n > slides.length) {
+          slideIndex = 1;
+        }
+        if (n < 1) {
+          slideIndex = slides.length;
+        }
+        for (i = 0; i < slides.length; i++) {
+          slides[i].style.display = "none";
+        }
+        slides[slideIndex - 1].style.display = "block";
+      }
+    </script>
+  </body>
+</html>

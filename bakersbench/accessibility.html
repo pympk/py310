@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <![endif]-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <title>Bakers Bench</title>
+    <link
+      rel="shortcut icon"
+      href="./img/logos/favicon.ico"
+      type="image/x-icon"
+    />
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    />
+    <!-- Load an icon library to show a hamburger menu (bars) on small screens -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="topnav">
+      <a href="#home" class="icon"
+        ><img src="./img/logos/abblogo_white.png" alt="Logo"
+      /></a>
+
+      <a href="javascript:void(0);" class="icon" onclick="myFunctionTop()">
+        <i class="fa fa-bars"></i>
+      </a>
+    </div>
+    <div class="topnav-links" id="myLinksTop">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+    </div>
+
+    <div class="accessibility-text">
+      <p>
+        We are committed to making our website as accessible as possible to all
+        visitors. We aim to conform to the Web Content Accessibility Guidelines
+        (WCAG) 2.1 up to level AA to the best of our ability. If you encounter
+        any difficulties accessing portions of our website, please contact us
+        at: <br />
+        <span> hello@bakersbenchla.com </span>
+        <br />
+        and we can provide assistance. Thank you!
+      </p>
+    </div>
+
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h2>Location & Hours</h2>
+          <p>
+            <a href="https://maps.app.goo.gl/t5m62bCyVpmE3vqQ8" target="_blank">
+              1021 Alpine, Los Angeles, California 90012
+            </a>
+          </p>
+
+          <p>Mon - Fri:  8-3 <br />Sat - Sun:  8-4</p>
+        </div>
+        <!-- <div class="text spacer">&nbsp&nbsp&nbsp&nbsp&nbsp</div> -->
+        <div class="spacer"></div>
+        <div class="footer-section">
+          <h2>Contact</h2>
+          <ul>
+            <li>213-395-0035</li>
+            <li><a href="mailto:hello@bakersbenchla.com">Email</a></li>
+            <li>
+              <a href="https://www.instagram.com/bakers.bench/" target="_blank"
+                >Instagram</a
+              >
+            </li>
+          </ul>
+          <h2>Resources</h2>
+          <ul>
+            <li><a href="accessibility.html">Accessibility</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2024 Bakers Bench. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      const faBars = document.querySelector("i.fa.fa-bars");
+      const myLinksTop = document.querySelector("#myLinksTop");
+
+      faBars.addEventListener("click", () => {
+        if (myLinksTop.style.display === "flex") {
+          myLinksTop.style.display = "none";
+        } else {
+          myLinksTop.style.display = "flex";
+        }
+      });
+    </script>
+  </body>
+</html>

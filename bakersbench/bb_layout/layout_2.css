@@ -1,0 +1,304 @@
+/* https://flexbox.tech/ */
+/* Global Styles */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body,
+nav,
+ul,
+li,
+h1,
+a {
+  max-width: 1200px;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Color recommended by Gemini AI
+#2960ad (Your Logo Blue) logo and nav_text
+#F0F0F0 (Off-White) navbar background
+
+#F8F8F8 (Very Light Gray) background color
+#333333 (Dark Gray) primary text
+#2960ad (Your Logo Blue) accent text
+*/
+:root {
+  --primary-color: #2960ad;
+  --navbar-text: #fff;
+  --nav-links-hover: #c7d2e7;
+  --background-color: #f8f8f8;
+  --primary-text: #333333;
+  --accent-text: #2960ad;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  letter-spacing: 1px;
+}
+
+body,
+nav,
+ul,
+li,
+h1,
+a {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
+  max-width: 1200px;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--primary-color);
+  color: var(--navbar-text);
+  padding: 2.2vw;
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+nav img {
+  width: 6vw;
+  height: auto;
+}
+
+nav h1 {
+  font-size: 4vw;
+}
+
+.nav-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: none; /* Hide the nav links by default */
+}
+
+.nav-links.show {
+  display: block; /* Show the nav links when the nav_menu is clicked */
+  position: absolute;
+  top: 100%;
+  right: 0; /* Change from left: 0 to right: 0 */
+  width: auto; /* Change from width: 100% to width: auto */
+  background-color: var(--primary-color);
+  padding-top: 0.5em;
+  padding-bottom: 1em;
+
+  padding-top: 0.5rem;
+  padding-bottom: 1rem;
+  text-align: right;
+}
+
+.nav-links > li {
+  margin: 3vw 3vw;
+}
+
+.nav-links a {
+  font-size: 4vw;
+  text-decoration: none;
+  color: var(--navbar-text);
+}
+
+.nav-links a.active {
+  text-decoration: underline;
+}
+
+.nav-links a:hover {
+  background-color: var(--nav-links-hover);
+}
+
+.nav_menu {
+  display: block; /* Show the nav_menu button */
+  cursor: pointer;
+  /* padding: 1em; */
+  /* padding: 1rem; */
+}
+
+.nav_menu span {
+  display: block;
+  width: 6vw;
+  height: 0.6vw;
+  margin-bottom: 1vw;
+  background-color: var(--navbar-text);
+}
+
+.hero {
+  width: 100%;
+  height: 56vw;
+}
+
+.banner {
+  width: 100%;
+  background-color: #a5b3c154;
+  background-color: #e0e3d2b0;
+  text-align: center;
+  /* padding: 1em; */
+  padding: 4vw;
+}
+
+.banner h2 {
+  font-size: 3.6vw;
+}
+
+.testimonials {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  background-color: var(--background-color);
+}
+
+.testimonial:first-child {
+  margin-top: 4em;
+}
+
+.testimonial:last-child {
+  margin-bottom: 4em;
+}
+
+.testimonial {
+  margin: 2em;
+  padding: 2em;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 75%;
+}
+
+.testimonial cite {
+  font-size: 3.6vw;
+  font-weight: bold;
+  line-height: 150%;
+  letter-spacing: 1px;
+}
+
+.testimonial h2 {
+  font-size: 3.2vw;
+  font-style: italic;
+  font-weight: bold;
+  margin: 1em;
+  color: #666;
+  line-height: 150%;
+  letter-spacing: 1px;
+}
+
+.testimonial p {
+  font-size: 3.2vw;
+  font-style: italic;
+  margin: 1em;
+  color: #666;
+  line-height: 150%;
+  letter-spacing: 1px;
+}
+
+/* Slideshow container */
+.slideshow-container {
+  position: relative;
+  margin: auto;
+}
+
+/* Hide the images by default */
+.mySlides {
+  display: none;
+  width: 100%;
+  height: 56vw;
+}
+
+.mySlides img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Next & previous buttons */
+.prev,
+.next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  margin-top: -22px;
+  padding: 16px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover,
+.next:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Fading animation */
+.fade {
+  animation-name: fade;
+  animation-duration: 2s;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.footer {
+  background-color: var(--primary-color);
+  color: var(--navbar-text);
+  padding: 2em 1em;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.footer-section {
+  margin-bottom: 2em;
+  width: 40%;
+}
+
+.footer-section h3 {
+  margin-top: 0;
+}
+
+.footer-section a {
+  color: var(--navbar-text);
+}
+
+.footer-bottom {
+  background-color: #333;
+  color: var(--navbar-text);
+  padding: 1em;
+  text-align: center;
+  clear: both;
+}
+
+.footer-bottom p {
+  margin-bottom: 0;
+}
