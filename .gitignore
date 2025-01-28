@@ -2,6 +2,8 @@ geckodriver.log
 .env
 .venv
 
+/nodejs/
+
 # # Python virtual environments
 # venv/
 # env/
