@@ -1,6 +1,7 @@
 geckodriver.log
 .env
 .venv
+.vscode/
 
 /nodejs/
 
