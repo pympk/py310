@@ -4,8 +4,8 @@ geckodriver.log
 .vscode/
 
 # Ignore nodejs folders and subfolders
-/nodejs/
-/nodejs_/
+/nodejs/node_modules/
+
 
 # # Python virtual environments
 # venv/
