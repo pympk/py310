@@ -45,6 +45,7 @@ pillow = "^10.4.0"
 einops = "^0.8.0"
 datasets = "^3.0.1"
 python-fasthtml = "^0.8.0"
+babel = "^2.16.0"
 
 
 [build-system]

@@ -5,6 +5,7 @@ geckodriver.log
 
 # Ignore nodejs folders and subfolders
 /nodejs/
+/nodejs_/
 
 # # Python virtual environments
 # venv/
