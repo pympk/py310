@@ -1,16 +1,24 @@
+<!DOCTYPE html>
 <html lang="en">
+
 <%- include("./partials/head.ejs") %>
 
 <body>
   <%- include("./partials/nav.ejs") %>
 
-  <div class="about content">
-    <h2>About Us</h2>
-    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quia quibusdam quaerat illo a modi tenetur ut blanditiis, illum quo consectetur recusandae excepturi natus impedit rem, tempora cum fuga quae in.</p>
-    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quia quibusdam quaerat illo a modi tenetur ut blanditiis, illum quo consectetur recusandae excepturi natus impedit rem, tempora cum fuga quae in.</p>
-    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quia quibusdam quaerat illo a modi tenetur ut blanditiis, illum quo consectetur recusandae excepturi natus impedit rem, tempora cum fuga quae in.</p>
-  </div>
+  <!-- Use <main> to wrap the main content of the page -->
+  <main class="about-main">
+    <!-- Use <article> to wrap the content specific to the "About Us" section -->
+    <article class="about content">
+      <h2>About Us</h2>
+      <!-- Paragraphs explaining about us -->
+      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quia quibusdam quaerat illo a modi tenetur ut blanditiis, illum quo consectetur recusandae excepturi natus impedit rem, tempora cum fuga quae in.</p>
+      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quia quibusdam quaerat illo a modi tenetur ut blanditiis, illum quo consectetur recusandae excepturi natus impedit rem, tempora cum fuga quae in.</p>
+      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quia quibusdam quaerat illo a modi tenetur ut blanditiis, illum quo consectetur recusandae excepturi natus impedit rem, tempora cum fuga quae in.</p>
+    </article>
+  </main>
 
   <%- include("./partials/footer.ejs") %>
 </body>
+
 </html>

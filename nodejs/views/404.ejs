@@ -1,13 +1,24 @@
+<!DOCTYPE html>
 <html lang="en">
+<!-- HTML5 document declaration, language set to English. -->
+
 <%- include("./partials/head.ejs") %>
+<!-- Include reusable <head> content using EJS partial. -->
 
 <body>
+  <!-- Start of the main page content. -->
+
   <%- include("./partials/nav.ejs") %>
+  <!-- Include navigation bar using EJS partial. -->
 
   <div class="not-found content">
+    <!-- Container for "not found" page content. -->
     OOPS, page not found :)
   </div>
+  <!-- "not-found" class for page-specific CSS, "content" for base styling. -->
 
   <%- include("./partials/footer.ejs") %>
+  <!-- Include footer using EJS partial. -->
 </body>
+
 </html>

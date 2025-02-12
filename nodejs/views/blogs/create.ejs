@@ -1,22 +1,43 @@
 <html lang="en">
+<!-- HTML document with language set to English. -->
+
 <%- include("../partials/head.ejs") %>
+<!-- Include reusable <head> content from partial. -->
 
-  <body>
-    <%- include("../partials/nav.ejs") %>
+<body>
+  <!-- Start of the main page content. -->
 
-      <div class="create-blog content">
-        <form action="/blogs" method="POST">
-          <label for="title">Blog title:</label>
-          <input type="text" id="title" name="title" required>
-          <label for="snippet">Blog snippet:</label>
-          <input type="text" id="snippet" name="snippet" required>
-          <label for="body">Blog body:</label>
-          <textarea id="body" name="body" required></textarea>
-          <button>Submit</button>
-        </form>
-      </div>
+  <%- include("../partials/nav.ejs") %>
+  <!-- Include navigation bar from partial. -->
 
-      <%- include("../partials/footer.ejs") %>
-  </body>
+  <div class="create-blog content">
+    <!-- Container for the blog creation form. -->
+    <form action="/blogs" method="POST">
+      <!-- Form for submitting blog data to "/blogs" endpoint (POST request). -->
+
+      <label for="title">Blog title:</label>
+      <!-- Label for the blog title input field. -->
+      <input type="text" id="title" name="title" required>
+      <!-- Text input field for blog title (required). -->
+
+      <label for="snippet">Blog snippet:</label>
+      <!-- Label for the blog snippet input field. -->
+      <input type="text" id="snippet" name="snippet" required>
+      <!-- Text input field for blog snippet (required). -->
+
+      <label for="body">Blog body:</label>
+      <!-- Label for the blog body textarea. -->
+      <textarea id="body" name="body" required></textarea>
+      <!-- Textarea for blog body content (required). -->
+
+      <button>Submit</button>
+      <!-- Submit button for the blog form. -->
+    </form>
+  </div>
+  <!-- "create-blog" class for styling, "content" for base styling. -->
+
+  <%- include("../partials/footer.ejs") %>
+  <!-- Include footer content from partial. -->
+</body>
 
 </html>

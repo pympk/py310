@@ -1,50 +1,41 @@
 <html lang="en">
+<!-- HTML document with language set to English. -->
 <%- include("../partials/head.ejs") %>
+<!-- Include reusable <head> content. -->
 
-  <body>
-    <%- include("../partials/nav.ejs") %>
+<body>
+  <!-- Start of main page content. -->
+  <%- include("../partials/nav.ejs") %>
+  <!-- Include navigation bar. -->
 
-      <div class="details content">
-        <h2>
-          Title: <p>
-            <%= blog.title %>
-          </p>
-        </h2>
-        <div class="snippet">
-          <h3>
-            Snippet: <p>
-              <%= blog.snippet %>
-            </p>
-          </h3>
-        </div>
+  <div class="details content">
+    <!-- Container for blog details. -->
+    <h2>Title: <%= blog.title %></h2>
+    <!-- Blog title, dynamically inserted. -->
+    <div class="snippet">
+      <!-- Container for blog snippet. -->
+      <h3>Snippet: <%= blog.snippet %></h3>
+      <!-- Blog snippet, dynamically inserted. -->
+    </div>
 
-        <div class="content">
-          <h4>
-            Body: <p>
-              <%= blog.body %>
-            </p>
-          </h4>
-        </div>
-        <a class="delete" data-doc="<%= blog._id %>"><img src="/trashcan.svg" alt="delete icon"></a>
-      </div>
-      <%- include("../partials/footer.ejs") %>
+    <div class="content">
+      <!-- Container for blog body. -->
+      <h4>Body: <%= blog.body %></h4>
+      <!-- Blog body content, dynamically inserted. -->
+    </div>
 
-        <script>
-          const trashcan = document.querySelector('a.delete');
-          trashcan.addEventListener('click', (e) => {
-            const endpoint = `/blogs/${trashcan.dataset.doc}`;
+    <a class="delete" data-doc="<%= blog._id %>">
+      <!-- Delete link for blog, includes blog ID. -->
+      <img src="/trashcan.svg" alt="delete icon">
+      <!-- Delete icon image. -->
+    </a>
+  </div>
+  <!-- "details" class for page specific styling, "content" for base styling -->
 
-            // Ajax request, expects json response
-            fetch(endpoint, {
-              method: 'DELETE',
-            })
-              .then((response) => response.json())
-              // .then((data) => console.log(data))
-              .then(data => window.location.href = data.redirect)
-              .catch((err) => console.log(err));
-
-          })
-        </script>
-  </body>
+  <%- include("../partials/footer.ejs") %>
+  <!-- Include footer. -->
+  <script src="/trashcan.js"></script>
+  <!-- Include trashcan.js script. -->
+</body>
 
 </html>

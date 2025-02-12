@@ -1,51 +1,36 @@
-const mongoose = require("mongoose"); // create object
-const Schema = mongoose.Schema; // Schema is the data structure
+const mongoose = require('mongoose');
+// Import the Mongoose library.
 
-// Create instance of Schema object
-// Schema defines the data structure
+const Schema = mongoose.Schema;
+// Get the Mongoose Schema constructor.
+
+// Schema definition for blog data
 const blogSchema = new Schema(
+  // Create a new schema with defined fields.
   {
     title: {
       type: String,
       required: true,
+      // Title field, String type, required.
     },
     snippet: {
       type: String,
       required: true,
+      // Snippet field, String type, required.
     },
     body: {
       type: String,
       required: true,
+      // Body field, String type, required.
     },
   },
   { timestamps: true }
+  // Add timestamp fields (createdAt, updatedAt).
 );
 
-// mongoose.model('Blog') will search
-//  database collection for the plural of blog
-const Blog = mongoose.model("Blog", blogSchema);
+// Create a model based on the schema
+const Blog = mongoose.model('blogs', blogSchema);
+// Create the 'Blog' model, uses the 'blogs' collection.
+
 module.exports = Blog;
-
-// const mongoose = require("mongoose");
-// const Schema = mongoose.Schema;
-
-// const blogSchema = new Schema(
-//   {
-//     title: {
-//       type: String,
-//       required: true,
-//     },
-//     snippet: {
-//       type: String,
-//       required: true,
-//     },
-//     body: {
-//       type: String,
-//       required: true,
-//     },
-//   },
-//   { timestamps: true }
-// );
-
-// const Blog = mongoose.model("Blog", blogSchema);
-// module.exports = Blog;
+// Export the Blog model for use in other modules.

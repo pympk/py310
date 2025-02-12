@@ -1,0 +1,160 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&display=swap');
+/* Import Noto Serif font from Google Fonts. */
+
+body {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 0 20px;
+  font-family: 'Noto Serif', serif;
+  /* Set body font, centering, padding, and max-width. */
+}
+p,
+h1,
+h2,
+h3,
+a,
+ul {
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  color: #222;
+  /* Remove default margins, padding, text decoration, set basic color. */
+}
+
+/* nav & footer styles */
+nav {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 60px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+  /* Flexbox layout, spacing, bottom border for nav. */
+  text-transform: uppercase;
+  /* Uppercase text for nav bar */
+}
+nav ul {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  /* Flexbox layout for nav ul. */
+}
+nav li {
+  list-style-type: none;
+  /* Remove list style */
+  margin-left: 20px;
+  /* Spacing of nav items */
+}
+nav h1 {
+  font-size: 3em;
+  /* Set nav title font size. */
+}
+nav p,
+nav a {
+  color: #777;
+  /* Set nav text and links color. */
+  font-weight: 300;
+  /* Set nav text and links font weight */
+}
+footer {
+  color: #777;
+  /* Set footer text color. */
+  text-align: center;
+  /* Center the text in footer */
+  margin: 80px auto 20px;
+  /* Spacing of the footer */
+}
+h2 {
+  margin-bottom: 40px;
+  /* Spacing below <h2> elements */
+}
+h3 {
+  text-transform: capitalize;
+  margin-bottom: 8px;
+  /* Spacing below <h3> elements */
+}
+.content {
+  margin-left: 20px;
+  /* Content alignment/spacing */
+}
+
+/* index styles */
+.blogs a {
+  display: block;
+  margin: 40px 0;
+  padding-left: 30px;
+  /* Style links on the blog list page */
+  border-left: 6px solid crimson;
+  /* Add border for visual emphasis */
+}
+.blogs a:hover h3 {
+  color: crimson;
+  /* Change color of heading on hover */
+}
+
+/* details styles */
+.details {
+  position: relative;
+  /* Set relative position for details page */
+}
+.delete {
+  position: absolute;
+  /* Set absolute position for the delete icon */
+  top: 0;
+  right: 0;
+  /* Position the delete icon in top right corner */
+  border-radius: 50%;
+  /* Make the button round */
+  padding: 8px;
+  /* Spacing of the button */
+}
+.delete:hover {
+  cursor: pointer;
+  /* Show hand cursor on hover. */
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2);
+  /* Add shadow effect on hover. */
+}
+
+/* create styles */
+.create-blog form {
+  max-width: 400px;
+  /* Set width for blog creation form */
+  margin: 0 auto;
+  /* Center the form */
+}
+.create-blog input,
+.create-blog textarea {
+  display: block;
+  /* Make the inputs display as blocks */
+  width: 100%;
+  /* Set inputs to 100% width. */
+  margin: 10px 0;
+  /* Set spacing between the inputs */
+  padding: 8px;
+  /* Spacing of the input fields */
+}
+.create-blog label {
+  display: block;
+  /* Make the labels display as blocks */
+  margin-top: 24px;
+  /* Add space above the label */
+}
+textarea {
+  height: 120px;
+  /* Set the height of textarea */
+}
+.create-blog button {
+  margin-top: 20px;
+  /* Add spacing above the button. */
+  background: crimson;
+  /* Set background to crimson. */
+  color: white;
+  /* Set text color to white. */
+  padding: 6px;
+  /* Set padding for button */
+  border: 0;
+  /* Remove border from the button */
+  font-size: 1.2em;
+  /* Set font size of button. */
+  cursor: pointer;
+  /* Set cursor to pointer on hover. */
+}

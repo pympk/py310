@@ -1,25 +1,40 @@
 <html lang="en">
+<!-- HTML document with language set to English. -->
 <%- include("../partials/head.ejs") %>
+<!-- Include reusable <head> content. -->
 
-  <body>
-    <%- include("../partials/nav.ejs") %>
+<body>
+  <!-- Start of main page content. -->
+  <%- include("../partials/nav.ejs") %>
+  <!-- Include navigation bar. -->
 
-      <div class="blogs content">
-        <h2>All Blogs</h2>
+  <div class="blogs content">
+    <!-- Container for blog list. -->
+    <h2>All Blogs</h2>
+    <!-- Heading for blog list. -->
 
-        <% if (blogs.length > 0) { %>
-      <% blogs.forEach(blog => { %>
-        <a class="single" href="/blogs/<%= blog._id %>">
-          <h3 class="title"><%= blog.title %></h3>
-          <p class="snippet"><%= blog.snippet %></p>
-        </a>
-      <% }) %>
+    <% if (blogs.length > 0) { %>
+    <!-- Check if there are any blogs. -->
+    <% blogs.forEach(blog => { %>
+    <!-- Loop through each blog. -->
+    <a class="single" href="/blogs/<%= blog._id %>">
+      <!-- Link to individual blog page. -->
+      <h3 class="title"><%= blog.title %></h3>
+      <!-- Blog title, dynamically inserted. -->
+      <p class="snippet"><%= blog.snippet %></p>
+      <!-- Blog snippet, dynamically inserted. -->
+    </a>
+    <% }) %>
     <% } else { %>
-      <p>There are no blogs to display...</p>
+    <!-- Display if no blogs available. -->
+    <p>There are no blogs to display...</p>
     <% } %>
-    
+
   </div>
+  <!-- "blogs" class for page-specific styling, "content" for base styling.-->
 
   <%- include("../partials/footer.ejs") %>
+  <!-- Include footer. -->
 </body>
+
 </html>
