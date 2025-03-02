@@ -41,7 +41,7 @@ try:
     embeddings = SentenceTransformerEmbeddings(model_name="all-MiniLM-L6-v2")
     
     # Create Chroma DB
-    persist_directory = 'db'
+    persist_directory = 'faq-chatbot/db'
     vectordb = Chroma.from_documents(
         documents=texts,
         embedding=embeddings,
