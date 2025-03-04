@@ -1,3 +1,4 @@
+
 geckodriver.log
 .env
 .venv
@@ -9,11 +10,4 @@ geckodriver.log
 # Ignore Python folders and subfolders
 __pycache__/
 .pytest_cache/
-/temp/
-
-# # Python virtual environments
-# venv/
-# env/
-
-# # .env file
-# .env
+temp/
