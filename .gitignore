@@ -6,6 +6,10 @@ geckodriver.log
 # Ignore nodejs folders and subfolders
 /nodejs/node_modules/
 
+# Ignore Python folders and subfolders
+__pycache__/
+.pytest_cache/
+/temp/
 
 # # Python virtual environments
 # venv/
