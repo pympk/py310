@@ -302,4 +302,66 @@ def find_sorted_intersection(list1, list2):
     return intersection_list
 
 
+def filter_df_dates_to_reference_symbol(df, reference_symbol="AAPL"):
+    """
+    Filters symbols in a DataFrame based on date index matching a reference symbol (default AAPL)
+    and provides analysis of the filtering results.
+
+    Args:
+        df (pd.DataFrame): DataFrame with a MultiIndex ('Symbol', 'Date').
+        reference_symbol (str): The symbol to use as the reference for date comparison. Defaults to "AAPL".
+
+    Returns:
+        pd.DataFrame: The filtered DataFrame.  Prints analysis to standard output.
+    """
+
+    # Get the date index for the reference symbol.  Return empty DataFrame if symbol not found
+    try:
+        reference_dates = df.loc[reference_symbol].index
+    except KeyError:
+        print(f"Error: Reference symbol '{reference_symbol}' not found in DataFrame.")
+        return pd.DataFrame()  # Return an empty DataFrame if reference_symbol is not found
+    
+    original_symbols = df.index.get_level_values('Symbol').unique().tolist()
+
+    # Filter symbols based on date index matching with the reference symbol
+    filtered_symbols = []
+    for symbol in original_symbols:
+        try: # Handle the case where a symbol might be missing from the df
+            symbol_dates = df.loc[symbol].index
+        except KeyError:
+            continue # Skip to the next symbol if this one is missing
+
+        if (len(symbol_dates) == len(reference_dates) and symbol_dates.equals(reference_dates)):
+            filtered_symbols.append(symbol)
+
+    # Create the filtered DataFrame
+    df_filtered = df.loc[filtered_symbols]
+
+
+    # Analyze the filtering results
+    print(f"Original number of symbols: {len(original_symbols)}")
+    print(f"Number of symbols after filtering: {len(filtered_symbols)}")
+    print(f"Number of symbols filtered out: {len(original_symbols) - len(filtered_symbols)}")
+
+    filtered_out_symbols = list(set(original_symbols) - set(filtered_symbols))
+
+    print("\nFirst 10 symbols that were filtered out:")
+    print(filtered_out_symbols[:10])
+
+    if filtered_out_symbols:
+        print("\nExample of dates for first filtered out symbol:")
+        first_filtered_symbol = filtered_out_symbols[0]
+        try:  # Handle potential KeyError if the symbol doesn't exist (e.g., due to filtering earlier)
+            print(f"\nDates for {first_filtered_symbol}:")
+            print(df.loc[first_filtered_symbol].index)
+        except KeyError:
+            print(f"\nSymbol '{first_filtered_symbol}' not found in the original DataFrame.")
+
+
+    print("\nFiltered DataFrame info:")
+    print(df_filtered.info())
+
+    return df_filtered
+
 
