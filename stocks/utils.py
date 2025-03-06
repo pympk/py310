@@ -183,7 +183,9 @@ def analyze_stock(df, ticker, risk_free_rate=0.0, output_debug_data=False):
     Analyzes a single stock's performance based on its adjusted close prices.
 
     Args:
-        df (pd.DataFrame): Pandas DataFrame containing stock data, including 'Adj Close' column.
+        df (pd.DataFrame): MultiIndex DataFrame. df.index.levels[0] are symbols,
+        df_cleaned_OHLCV.index.levels[1] are dates.
+        df containing stock's Open, High, Low, Close, Adj Close, Volume, Adj Open, Adj High, Adj Low.
         ticker (str): The stock ticker symbol (e.g., 'NVDA').
         risk_free_rate (float): The annualized risk-free rate. Default is 0.0.
         output_debug_data (bool): If True, print Adj Close prices and returns (default: False).
@@ -193,8 +195,8 @@ def analyze_stock(df, ticker, risk_free_rate=0.0, output_debug_data=False):
                        Returns None if there is an error.  Crucially changed to return None, not an empty dataframe.
     """
     try:
-        # Extract Adj Close prices for the specified ticker
-        adj_close_prices = df.loc[ticker]['Adj Close']
+        # Extract Adj Close prices for ticker, sorted by date oldest to newest
+        adj_close_prices = df.loc[ticker]['Adj Close'].sort_index()
 
         # Check if adj_close_prices is a Series
         if not isinstance(adj_close_prices, pd.Series):
@@ -363,5 +365,119 @@ def filter_df_dates_to_reference_symbol(df, reference_symbol="AAPL"):
     print(df_filtered.info())
 
     return df_filtered
+
+
+def get_latest_dfs(df, num_rows):
+    """
+    Get the latest N rows for each symbol from a multi-index DataFrame, 
+    returning multiple filtered DataFrames in a list.
+
+    Processes a DataFrame with multi-level index (Symbol, Date) to return:
+    - For each number in num_rows: A DataFrame containing the latest N dates
+      for each symbol, sorted by symbol and chronological date order
+
+    Parameters:
+    df (pd.DataFrame): Input DataFrame with MultiIndex of (Symbol, Date)
+    num_rows (list[int]): List of integers specifying numbers of recent rows to return
+
+    Returns:
+    list[pd.DataFrame]: List of filtered DataFrames in the same order as num_rows
+                        Example: [df_30, df_60] for num_rows=[30, 60]
+
+    Raises:
+    KeyError: If DataFrame doesn't have 'Symbol' and 'Date' index levels
+    TypeError: If num_rows contains non-integer values
+
+    Example:
+    >>> df = pd.DataFrame(index=pd.MultiIndex.from_product(
+    ...     [['AAPL', 'MSFT'], pd.date_range('2020-01-01', periods=100)],
+    ...     names=['Symbol', 'Date']
+    ... ))
+    >>> dfs = get_latest_dfs(df, [30, 60])
+    >>> len(dfs[0].loc['AAPL'])
+    30
+    >>> len(dfs[1].loc['MSFT'])
+    60
+    """
+    result_list = []
+
+    # Validate input types
+    if not all(isinstance(n, int) for n in num_rows):
+        raise TypeError("All elements in num_rows must be integers")
+
+    for num in num_rows:
+        # Group by symbol and process each group
+        result = (
+            df.groupby(level='Symbol', group_keys=False)
+            .apply(lambda group: 
+                # Sort group dates descending and take top N rows
+                group.sort_index(level='Date', ascending=False).head(num)
+            )
+        )
+
+        # Global sort for final output:
+        # 1. Symbols in alphabetical order (ascending=True)
+        # 2. Dates in chronological order (ascending=True) within each symbol
+        result = result.sort_index(
+            level=['Symbol', 'Date'], 
+            ascending=[True, True]
+        )
+
+        result_list.append(result)
+
+    return result_list
+
+
+def filter_symbols_with_missing_values(df):
+    """
+    Filters out symbols from a MultiIndex DataFrame that have:
+    1. Any missing values in any columns
+    2. Missing any dates present in the original DataFrame's date index
+
+    Args:
+        df (pd.DataFrame): A pandas DataFrame with a MultiIndex, where the first
+                           level is the symbol and the second level is the date.
+
+    Returns:
+        tuple: A tuple containing:
+            - filtered_df (pd.DataFrame): A DataFrame containing only the symbols
+              without missing values or dates. Returns empty if none are clean.
+            - symbols_with_missing (list): List of symbols with missing data/dates.
+    """
+    if df.empty:
+        return pd.DataFrame(), []
+
+    # Get all unique dates from the original DataFrame
+    expected_dates = df.index.levels[1].unique()
+    
+    symbols_with_missing = []
+    filtered_data = []
+    kept_symbols = []
+
+    for symbol in df.index.get_level_values(0).unique():
+        symbol_df = df.loc[symbol]
+        
+        # Check for missing values
+        has_nan = symbol_df.isnull().any().any()
+        
+        # Check for missing dates
+        missing_dates = expected_dates.difference(symbol_df.index)
+        
+        if has_nan or len(missing_dates) > 0:
+            symbols_with_missing.append(symbol)
+        else:
+            filtered_data.append(symbol_df)
+            kept_symbols.append(symbol)
+
+    if filtered_data:
+        filtered_df = pd.concat(
+            filtered_data, 
+            keys=kept_symbols, 
+            names=['Symbol', 'Date']
+        )
+    else:
+        filtered_df = pd.DataFrame()
+
+    return filtered_df, symbols_with_missing
 
 
