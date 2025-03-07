@@ -6931,6 +6931,20 @@ files = [
 numpy = "*"
 
 [[package]]
+name = "tabulate"
+version = "0.9.0"
+description = "Pretty-print tabular data"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "tabulate-0.9.0-py3-none-any.whl", hash = "sha256:024ca478df22e9340661486f85298cff5f6dcdba14f3813e8830015b9ed1948f"},
+    {file = "tabulate-0.9.0.tar.gz", hash = "sha256:0095b12bf5966de529c0feb1fa08671671b3368eec77d7ef7ab114be2c068b3c"},
+]
+
+[package.extras]
+widechars = ["wcwidth"]
+
+[[package]]
 name = "tbb"
 version = "2021.13.0"
 description = "Intel® oneAPI Threading Building Blocks (oneTBB)"
@@ -8404,4 +8418,4 @@ test = ["big-O", "importlib-resources", "jaraco.functools", "jaraco.itertools", 
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "95ba00e82e5b16a47e5800598ce7c1036dbf12d96a2f132d994b4b0fbc933eb6"
+content-hash = "1d9064b670eeceaccefbf39adef999855f093419d1ff76ae7f78ee52a8396159"
