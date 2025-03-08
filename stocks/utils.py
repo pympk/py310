@@ -481,3 +481,60 @@ def filter_symbols_with_missing_values(df):
     return filtered_df, symbols_with_missing
 
 
+def convert_volume(value):
+    """
+    Convert a string volume representation with suffix (M/K) to float millions.
+    
+    Handles values like '51.73M' (51.73 million) or '111.53K' (0.11153 million),
+    converting them to float values in millions unit.
+
+    Parameters:
+    value (str): Input string value to convert. Can contain 'M' (million) 
+                 or 'K' (thousand) suffix. Also handles NaN values.
+
+    Returns:
+    float: Numerical value in millions. Returns np.nan for invalid formats,
+           unknown suffixes, or non-string inputs.
+
+    Example:
+    >>> convert_volume('51.73M')
+    51.73
+    >>> convert_volume('111.53K')
+    0.11153
+    >>> convert_volume('invalid')
+    nan
+    """
+    # Handle missing values immediately
+    if pd.isna(value):
+        return np.nan
+
+    try:
+        # Clean and standardize input: remove whitespace, make uppercase
+        cleaned = value.strip().upper()
+        
+        # Extract suffix (last character) and numerical part
+        suffix = cleaned[-1]
+        number_str = cleaned[:-1]
+        
+        # Convert numerical part to float
+        number = float(number_str)
+        
+        # Apply conversion based on suffix
+        if suffix == 'M':
+            # Already in millions, return directly
+            return number
+        elif suffix == 'K':
+            # Convert thousands to millions (divide by 1000)
+            return number / 1000
+        else:
+            # Return NaN for unknown suffixes (e.g., 'B', 'T')
+            return np.nan
+            
+    except (ValueError, IndexError, TypeError):
+        # Handle various error scenarios:
+        # - ValueError: if number conversion fails
+        # - IndexError: if string is empty after cleaning
+        # - TypeError: if input isn't string-like
+        return np.nan
+
+
