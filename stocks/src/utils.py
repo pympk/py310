@@ -536,114 +536,104 @@ def convert_volume(value):
 
 # ====================
 
-def get_ohlcv_files(dir, create_dir=True):
-    """Return list of files matching df_OHLCV_ pattern in specified directory"""
+def get_matching_files(dir, create_dir=True, start_file_pattern='df_OHLCV_'):
+    """Return list of files matching specified pattern in directory"""
     if create_dir:
         os.makedirs(dir, exist_ok=True)
     try:
-        return [f for f in os.listdir(dir) if f.startswith('df_OHLCV_')]
+        return [f for f in os.listdir(dir) if f.startswith(start_file_pattern)]
     except FileNotFoundError:
         return []
 
-def process_downloads_dir(downloads_dir, limit=20):
-    """Process Downloads directory with time-based file limiting"""
+def process_downloads_dir(downloads_dir, limit=20, start_file_pattern='df_OHLCV_'):
+    """Process Downloads directory with pattern-based filtering"""
     try:
-        # Get all files with their paths and modification times
         all_files = []
         for f in os.listdir(downloads_dir):
             file_path = os.path.join(downloads_dir, f)
             if os.path.isfile(file_path):
                 all_files.append(file_path)
         
-        # Sort by modification time (newest first)
         all_files.sort(key=lambda x: os.path.getmtime(x), reverse=True)
-        
-        # Apply limit and filter for pattern
         latest_files = all_files[:limit]
         matched_files = [f for f in latest_files 
-                       if os.path.basename(f).startswith('df_OHLCV_')]
+                       if os.path.basename(f).startswith(start_file_pattern)]
         
-        # Display search status with dark-mode friendly color
-        msg = f"<span style='color:#00ffff;font-weight:500'>[Downloads] Scanned latest {len(latest_files)} files • Found {len(matched_files)} matches</span>"
+        msg = (f"<span style='color:#00ffff;font-weight:500'>[Downloads] Scanned latest {len(latest_files)} files • "
+               f"Found {len(matched_files)} '{start_file_pattern}' matches</span>")
         display(Markdown(msg))
-
         return matched_files
     
     except Exception as e:
         display(Markdown(f"<span style='color:red'>Error accessing Downloads: {str(e)}</span>"))
         return []
 
-def display_file_selector(files_full_path):
-    """Show interactive file selection interface with file metadata"""
-    display(Markdown("**Available OHLCV files:**"))
+def display_file_selector(files_with_source, start_file_pattern):
+    """Show interactive file selector with dynamic pattern"""
+    display(Markdown(f"**Available '{start_file_pattern}' files:**"))
     
-    for idx, f in enumerate(files_full_path, 1):
-        # Get file metadata
-        name = os.path.basename(f)
-        size = os.path.getsize(f)
-        timestamp = os.path.getmtime(f)
+    for idx, (file_path, source) in enumerate(files_with_source, 1):
+        name = os.path.basename(file_path)
+        size = os.path.getsize(file_path)
+        timestamp = os.path.getmtime(file_path)
         
-        # Format metadata
         size_mb = size / (1024 * 1024)
         formatted_date = datetime.datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M')
         
-        # Create markdown with metadata
         file_info = (
-            f"- ({idx}) `{name}` "
+            f"- ({idx}) `[{source.upper()}]` `{name}` "
             f"<span style='color:#00ffff'>"
             f"({size_mb:.2f} MB, {formatted_date})"
             f"</span>"
         )
         display(Markdown(file_info))
     
-    print(f'\nInput a number into the prompt (top of the screen) to select file to process')
-
-def get_user_choice(files_full_path):
-    """Handle user input with validation"""
-    while True:
-        try:
-            prompt = f"Select file (1-{len(files_full_path)}):"
-            choice = int(input(prompt))
-            if 1 <= choice <= len(files_full_path):
-                return files_full_path[choice-1]
-            display(Markdown(f"<span style='color:red'>Enter 1-{len(files_full_path)}</span>"))
-        except ValueError:
-            display(Markdown("<span style='color:red'>Numbers only!</span>"))
+    print(f'\nInput a number to select file (1-{len(files_with_source)})')
 
 def generate_clean_filename(source_file):
     """Create cleaned filename with _clean suffix"""
     base, ext = os.path.splitext(source_file)
     return f"{base}_clean{ext}"
 
+def get_user_choice(files_with_source):
+    """Handle user input with validation"""
+    while True:
+        try:
+            prompt = f"Select file (1-{len(files_with_source)}):"
+            choice = int(input(prompt))
+            if 1 <= choice <= len(files_with_source):
+                return files_with_source[choice-1][0]  # Return the path from tuple
+            display(Markdown(f"<span style='color:red'>Enter 1-{len(files_with_source)}</span>"))
+        except ValueError:
+            display(Markdown("<span style='color:red'>Numbers only!</span>"))
 
-def main_processor(data_dir='../data', downloads_dir=None, downloads_limit=20, clean_name_override=None):
-    """Orchestrate the file selection process with Downloads limiting"""
-    # Set default downloads directory
+def main_processor(data_dir='../data', downloads_dir=None, downloads_limit=20, 
+                   clean_name_override=None, start_file_pattern='df_OHLCV_'):
+    """Orchestrate file selection with configurable pattern"""
     if downloads_dir is None:
         downloads_dir = os.path.join(os.path.expanduser('~'), 'Downloads')
     
-    # Get data directory files
-    data_files = [os.path.join(data_dir, f) for f in get_ohlcv_files(data_dir, create_dir=True)]
+    # Get data directory files with pattern
+    data_files = [(os.path.join(data_dir, f), 'data') 
+                for f in get_matching_files(data_dir, create_dir=True, start_file_pattern=start_file_pattern)]
     
-    # Get downloads directory files with limiting
+    # Get downloads files with pattern
     downloads_files = []
     if os.path.exists(downloads_dir):
-        downloads_files = process_downloads_dir(downloads_dir, downloads_limit)
+        raw_downloads = process_downloads_dir(downloads_dir, downloads_limit, start_file_pattern=start_file_pattern)
+        downloads_files = [(f, 'downloads') for f in raw_downloads]
     
-    # Combine file lists
     ohlcv_files = data_files + downloads_files
     
     if not ohlcv_files:
-        display(Markdown("**Error:** No OHLCV files found!"))
+        display(Markdown(f"**Error:** No '{start_file_pattern}' files found!"))
         return None, None
     
-    # User interaction
-    display_file_selector(ohlcv_files)  # Existing function
-    selected_file = get_user_choice(ohlcv_files)  # Existing function
-    
-    # Generate clean path (always in data directory)
+    display_file_selector(ohlcv_files, start_file_pattern)
+    selected_file = get_user_choice(ohlcv_files)
+
     clean_name = generate_clean_filename(os.path.basename(selected_file))
-    if clean_name_override is not None:  # Override if provided
+    if clean_name_override is not None:
         clean_name = clean_name_override
     dest_path = os.path.join(data_dir, clean_name)
     
@@ -655,7 +645,169 @@ def main_processor(data_dir='../data', downloads_dir=None, downloads_limit=20, c
     return selected_file, dest_path
 
 
-# def main_processor(data_dir='../data', downloads_dir=None, downloads_limit=20):
+
+
+
+# ====================
+# def display_file_selector(files_with_source):
+#     """Show interactive file selection interface with file metadata and source directory"""
+#     display(Markdown("**Available OHLCV files:**"))
+    
+#     for idx, (file_path, source) in enumerate(files_with_source, 1):
+#         # Get file metadata
+#         name = os.path.basename(file_path)
+#         size = os.path.getsize(file_path)
+#         timestamp = os.path.getmtime(file_path)
+        
+#         # Format metadata
+#         size_mb = size / (1024 * 1024)
+#         formatted_date = datetime.datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M')
+        
+#         # Create markdown with metadata and source
+#         file_info = (
+#             f"- ({idx}) `[{source.upper()}]` `{name}` "
+#             f"<span style='color:#00ffff'>"
+#             f"({size_mb:.2f} MB, {formatted_date})"
+#             f"</span>"
+#         )
+#         display(Markdown(file_info))
+    
+#     print(f'\nInput a number into the prompt (top of the screen) to select file to process')
+
+# def get_user_choice(files_with_source):
+#     """Handle user input with validation"""
+#     while True:
+#         try:
+#             prompt = f"Select file (1-{len(files_with_source)}):"
+#             choice = int(input(prompt))
+#             if 1 <= choice <= len(files_with_source):
+#                 return files_with_source[choice-1][0]  # Return the path from tuple
+#             display(Markdown(f"<span style='color:red'>Enter 1-{len(files_with_source)}</span>"))
+#         except ValueError:
+#             display(Markdown("<span style='color:red'>Numbers only!</span>"))
+
+# def main_processor(data_dir='../data', downloads_dir=None, downloads_limit=20, clean_name_override=None):
+#     """Orchestrate the file selection process with Downloads limiting"""
+#     # Set default downloads directory
+#     if downloads_dir is None:
+#         downloads_dir = os.path.join(os.path.expanduser('~'), 'Downloads')
+    
+#     # Get data directory files with source tag
+#     data_files = [(os.path.join(data_dir, f), 'data') 
+#                 for f in get_ohlcv_files(data_dir, create_dir=True)]
+    
+#     # Get downloads directory files with source tag
+#     downloads_files = []
+#     if os.path.exists(downloads_dir):
+#         raw_downloads = process_downloads_dir(downloads_dir, downloads_limit)
+#         downloads_files = [(f, 'downloads') for f in raw_downloads]
+    
+#     # Combine file lists with source information
+#     ohlcv_files = data_files + downloads_files
+    
+#     if not ohlcv_files:
+#         display(Markdown("**Error:** No OHLCV files found!"))
+#         return None, None
+    
+#     # User interaction
+#     display_file_selector(ohlcv_files)
+#     selected_file = get_user_choice(ohlcv_files)
+
+#     # Generate clean path (always in data directory)
+#     clean_name = generate_clean_filename(os.path.basename(selected_file))
+#     if clean_name_override is not None:
+#         clean_name = clean_name_override
+#     dest_path = os.path.join(data_dir, clean_name)
+    
+#     display(Markdown(f"""
+#     **Selected paths:**
+#     - Source: `{selected_file}`  
+#     - Destination: `{dest_path}`
+#     """))
+#     return selected_file, dest_path
+
+# # ====================
+# def get_ohlcv_files(dir, create_dir=True):
+#     """Return list of files matching df_OHLCV_ pattern in specified directory"""
+#     if create_dir:
+#         os.makedirs(dir, exist_ok=True)
+#     try:
+#         return [f for f in os.listdir(dir) if f.startswith('df_OHLCV_')]
+#     except FileNotFoundError:
+#         return []
+
+# def process_downloads_dir(downloads_dir, limit=20):
+#     """Process Downloads directory with time-based file limiting"""
+#     try:
+#         # Get all files with their paths and modification times
+#         all_files = []
+#         for f in os.listdir(downloads_dir):
+#             file_path = os.path.join(downloads_dir, f)
+#             if os.path.isfile(file_path):
+#                 all_files.append(file_path)
+        
+#         # Sort by modification time (newest first)
+#         all_files.sort(key=lambda x: os.path.getmtime(x), reverse=True)
+        
+#         # Apply limit and filter for pattern
+#         latest_files = all_files[:limit]
+#         matched_files = [f for f in latest_files 
+#                        if os.path.basename(f).startswith('df_OHLCV_')]
+        
+#         # Display search status with dark-mode friendly color
+#         msg = f"<span style='color:#00ffff;font-weight:500'>[Downloads] Scanned latest {len(latest_files)} files • Found {len(matched_files)} matches</span>"
+#         display(Markdown(msg))
+
+#         return matched_files
+    
+#     except Exception as e:
+#         display(Markdown(f"<span style='color:red'>Error accessing Downloads: {str(e)}</span>"))
+#         return []
+
+# def display_file_selector(files_full_path):
+#     """Show interactive file selection interface with file metadata"""
+#     display(Markdown("**Available OHLCV files:**"))
+    
+#     for idx, f in enumerate(files_full_path, 1):
+#         # Get file metadata
+#         name = os.path.basename(f)
+#         size = os.path.getsize(f)
+#         timestamp = os.path.getmtime(f)
+        
+#         # Format metadata
+#         size_mb = size / (1024 * 1024)
+#         formatted_date = datetime.datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M')
+        
+#         # Create markdown with metadata
+#         file_info = (
+#             f"- ({idx}) `{name}` "
+#             f"<span style='color:#00ffff'>"
+#             f"({size_mb:.2f} MB, {formatted_date})"
+#             f"</span>"
+#         )
+#         display(Markdown(file_info))
+    
+#     print(f'\nInput a number into the prompt (top of the screen) to select file to process')
+
+# def get_user_choice(files_full_path):
+#     """Handle user input with validation"""
+#     while True:
+#         try:
+#             prompt = f"Select file (1-{len(files_full_path)}):"
+#             choice = int(input(prompt))
+#             if 1 <= choice <= len(files_full_path):
+#                 return files_full_path[choice-1]
+#             display(Markdown(f"<span style='color:red'>Enter 1-{len(files_full_path)}</span>"))
+#         except ValueError:
+#             display(Markdown("<span style='color:red'>Numbers only!</span>"))
+
+# def generate_clean_filename(source_file):
+#     """Create cleaned filename with _clean suffix"""
+#     base, ext = os.path.splitext(source_file)
+#     return f"{base}_clean{ext}"
+
+
+# def main_processor(data_dir='../data', downloads_dir=None, downloads_limit=20, clean_name_override=None):
 #     """Orchestrate the file selection process with Downloads limiting"""
 #     # Set default downloads directory
 #     if downloads_dir is None:
@@ -682,6 +834,8 @@ def main_processor(data_dir='../data', downloads_dir=None, downloads_limit=20, c
     
 #     # Generate clean path (always in data directory)
 #     clean_name = generate_clean_filename(os.path.basename(selected_file))
+#     if clean_name_override is not None:  # Override if provided
+#         clean_name = clean_name_override
 #     dest_path = os.path.join(data_dir, clean_name)
     
 #     display(Markdown(f"""
@@ -691,5 +845,128 @@ def main_processor(data_dir='../data', downloads_dir=None, downloads_limit=20, c
 #     """))
 #     return selected_file, dest_path
 
+
 # ====================
+
+# # ====================
+
+# def get_ohlcv_files(dir, create_dir=True):
+#     """Return list of files matching df_OHLCV_ pattern in specified directory"""
+#     if create_dir:
+#         os.makedirs(dir, exist_ok=True)
+#     try:
+#         return [f for f in os.listdir(dir) if f.startswith('df_OHLCV_')]
+#     except FileNotFoundError:
+#         return []
+
+# def process_downloads_dir(downloads_dir, limit=20):
+#     """Process Downloads directory with time-based file limiting"""
+#     try:
+#         # Get all files with their paths and modification times
+#         all_files = []
+#         for f in os.listdir(downloads_dir):
+#             file_path = os.path.join(downloads_dir, f)
+#             if os.path.isfile(file_path):
+#                 all_files.append(file_path)
+        
+#         # Sort by modification time (newest first)
+#         all_files.sort(key=lambda x: os.path.getmtime(x), reverse=True)
+        
+#         # Apply limit and filter for pattern
+#         latest_files = all_files[:limit]
+#         matched_files = [f for f in latest_files 
+#                        if os.path.basename(f).startswith('df_OHLCV_')]
+        
+#         # Display search status with dark-mode friendly color
+#         msg = f"<span style='color:#00ffff;font-weight:500'>[Downloads] Scanned latest {len(latest_files)} files • Found {len(matched_files)} matches</span>"
+#         display(Markdown(msg))
+
+#         return matched_files
+    
+#     except Exception as e:
+#         display(Markdown(f"<span style='color:red'>Error accessing Downloads: {str(e)}</span>"))
+#         return []
+
+# def display_file_selector(files_full_path):
+#     """Show interactive file selection interface with file metadata"""
+#     display(Markdown("**Available OHLCV files:**"))
+    
+#     for idx, f in enumerate(files_full_path, 1):
+#         # Get file metadata
+#         name = os.path.basename(f)
+#         size = os.path.getsize(f)
+#         timestamp = os.path.getmtime(f)
+        
+#         # Format metadata
+#         size_mb = size / (1024 * 1024)
+#         formatted_date = datetime.datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M')
+        
+#         # Create markdown with metadata
+#         file_info = (
+#             f"- ({idx}) `{name}` "
+#             f"<span style='color:#00ffff'>"
+#             f"({size_mb:.2f} MB, {formatted_date})"
+#             f"</span>"
+#         )
+#         display(Markdown(file_info))
+    
+#     print(f'\nInput a number into the prompt (top of the screen) to select file to process')
+
+# def get_user_choice(files_full_path):
+#     """Handle user input with validation"""
+#     while True:
+#         try:
+#             prompt = f"Select file (1-{len(files_full_path)}):"
+#             choice = int(input(prompt))
+#             if 1 <= choice <= len(files_full_path):
+#                 return files_full_path[choice-1]
+#             display(Markdown(f"<span style='color:red'>Enter 1-{len(files_full_path)}</span>"))
+#         except ValueError:
+#             display(Markdown("<span style='color:red'>Numbers only!</span>"))
+
+# def generate_clean_filename(source_file):
+#     """Create cleaned filename with _clean suffix"""
+#     base, ext = os.path.splitext(source_file)
+#     return f"{base}_clean{ext}"
+
+
+# def main_processor(data_dir='../data', downloads_dir=None, downloads_limit=20, clean_name_override=None):
+#     """Orchestrate the file selection process with Downloads limiting"""
+#     # Set default downloads directory
+#     if downloads_dir is None:
+#         downloads_dir = os.path.join(os.path.expanduser('~'), 'Downloads')
+    
+#     # Get data directory files
+#     data_files = [os.path.join(data_dir, f) for f in get_ohlcv_files(data_dir, create_dir=True)]
+    
+#     # Get downloads directory files with limiting
+#     downloads_files = []
+#     if os.path.exists(downloads_dir):
+#         downloads_files = process_downloads_dir(downloads_dir, downloads_limit)
+    
+#     # Combine file lists
+#     ohlcv_files = data_files + downloads_files
+    
+#     if not ohlcv_files:
+#         display(Markdown("**Error:** No OHLCV files found!"))
+#         return None, None
+    
+#     # User interaction
+#     display_file_selector(ohlcv_files)  # Existing function
+#     selected_file = get_user_choice(ohlcv_files)  # Existing function
+    
+#     # Generate clean path (always in data directory)
+#     clean_name = generate_clean_filename(os.path.basename(selected_file))
+#     if clean_name_override is not None:  # Override if provided
+#         clean_name = clean_name_override
+#     dest_path = os.path.join(data_dir, clean_name)
+    
+#     display(Markdown(f"""
+#     **Selected paths:**
+#     - Source: `{selected_file}`  
+#     - Destination: `{dest_path}`
+#     """))
+#     return selected_file, dest_path
+
+
 
