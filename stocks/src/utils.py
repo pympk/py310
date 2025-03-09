@@ -1,6 +1,14 @@
 import os
 import time
 import datetime
+import numpy as np
+import pandas as pd
+import empyrical  
+import warnings
+from IPython.display import display, Markdown
+
+
+warnings.filterwarnings("ignore", message="Module \"zipline.assets\" not found.*")
 
 def get_latest_downloaded_files(directory_path, num_files=10):
     """
@@ -44,15 +52,6 @@ def get_latest_downloaded_files(directory_path, num_files=10):
         # If there is an error, return an empty list
         return []
 
-
-
-
-import numpy as np
-import pandas as pd
-import empyrical  
-import warnings
-
-warnings.filterwarnings("ignore", message="Module \"zipline.assets\" not found.*")
 
 def _calculate_performance_metrics(returns, risk_free_rate=0.0):
     """
@@ -99,8 +98,6 @@ def _calculate_performance_metrics(returns, risk_free_rate=0.0):
         print(f"An error occurred: {e}")
         return None
 
-import pandas as pd
-import empyrical  # Make sure empyrical is installed: pip install empyrical
 
 def calculate_performance_metrics(returns, risk_free_rate=0.0):
     """
@@ -234,7 +231,6 @@ def analyze_stock(df, ticker, risk_free_rate=0.0, output_debug_data=False):
     except Exception as e:
         print(f"An error occurred during analysis: {e}")
         return None # Return None, not an empty DataFrame
-
 
 
 def get_recent_rows(df, num_rows=None):
@@ -537,4 +533,163 @@ def convert_volume(value):
         # - TypeError: if input isn't string-like
         return np.nan
 
+
+# ====================
+
+def get_ohlcv_files(dir, create_dir=True):
+    """Return list of files matching df_OHLCV_ pattern in specified directory"""
+    if create_dir:
+        os.makedirs(dir, exist_ok=True)
+    try:
+        return [f for f in os.listdir(dir) if f.startswith('df_OHLCV_')]
+    except FileNotFoundError:
+        return []
+
+def process_downloads_dir(downloads_dir, limit=20):
+    """Process Downloads directory with time-based file limiting"""
+    try:
+        # Get all files with their paths and modification times
+        all_files = []
+        for f in os.listdir(downloads_dir):
+            file_path = os.path.join(downloads_dir, f)
+            if os.path.isfile(file_path):
+                all_files.append(file_path)
+        
+        # Sort by modification time (newest first)
+        all_files.sort(key=lambda x: os.path.getmtime(x), reverse=True)
+        
+        # Apply limit and filter for pattern
+        latest_files = all_files[:limit]
+        matched_files = [f for f in latest_files 
+                       if os.path.basename(f).startswith('df_OHLCV_')]
+        
+        # Display search status with dark-mode friendly color
+        msg = f"<span style='color:#00ffff;font-weight:500'>[Downloads] Scanned latest {len(latest_files)} files • Found {len(matched_files)} matches</span>"
+        display(Markdown(msg))
+
+        return matched_files
+    
+    except Exception as e:
+        display(Markdown(f"<span style='color:red'>Error accessing Downloads: {str(e)}</span>"))
+        return []
+
+def display_file_selector(files_full_path):
+    """Show interactive file selection interface with file metadata"""
+    display(Markdown("**Available OHLCV files:**"))
+    
+    for idx, f in enumerate(files_full_path, 1):
+        # Get file metadata
+        name = os.path.basename(f)
+        size = os.path.getsize(f)
+        timestamp = os.path.getmtime(f)
+        
+        # Format metadata
+        size_mb = size / (1024 * 1024)
+        formatted_date = datetime.datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M')
+        
+        # Create markdown with metadata
+        file_info = (
+            f"- ({idx}) `{name}` "
+            f"<span style='color:#00ffff'>"
+            f"({size_mb:.2f} MB, {formatted_date})"
+            f"</span>"
+        )
+        display(Markdown(file_info))
+    
+    print(f'\nInput a number into the prompt (top of the screen) to select file to process')
+
+def get_user_choice(files_full_path):
+    """Handle user input with validation"""
+    while True:
+        try:
+            prompt = f"Select file (1-{len(files_full_path)}):"
+            choice = int(input(prompt))
+            if 1 <= choice <= len(files_full_path):
+                return files_full_path[choice-1]
+            display(Markdown(f"<span style='color:red'>Enter 1-{len(files_full_path)}</span>"))
+        except ValueError:
+            display(Markdown("<span style='color:red'>Numbers only!</span>"))
+
+def generate_clean_filename(source_file):
+    """Create cleaned filename with _clean suffix"""
+    base, ext = os.path.splitext(source_file)
+    return f"{base}_clean{ext}"
+
+
+def main_processor(data_dir='../data', downloads_dir=None, downloads_limit=20, clean_name_override=None):
+    """Orchestrate the file selection process with Downloads limiting"""
+    # Set default downloads directory
+    if downloads_dir is None:
+        downloads_dir = os.path.join(os.path.expanduser('~'), 'Downloads')
+    
+    # Get data directory files
+    data_files = [os.path.join(data_dir, f) for f in get_ohlcv_files(data_dir, create_dir=True)]
+    
+    # Get downloads directory files with limiting
+    downloads_files = []
+    if os.path.exists(downloads_dir):
+        downloads_files = process_downloads_dir(downloads_dir, downloads_limit)
+    
+    # Combine file lists
+    ohlcv_files = data_files + downloads_files
+    
+    if not ohlcv_files:
+        display(Markdown("**Error:** No OHLCV files found!"))
+        return None, None
+    
+    # User interaction
+    display_file_selector(ohlcv_files)  # Existing function
+    selected_file = get_user_choice(ohlcv_files)  # Existing function
+    
+    # Generate clean path (always in data directory)
+    clean_name = generate_clean_filename(os.path.basename(selected_file))
+    if clean_name_override is not None:  # Override if provided
+        clean_name = clean_name_override
+    dest_path = os.path.join(data_dir, clean_name)
+    
+    display(Markdown(f"""
+    **Selected paths:**
+    - Source: `{selected_file}`  
+    - Destination: `{dest_path}`
+    """))
+    return selected_file, dest_path
+
+
+# def main_processor(data_dir='../data', downloads_dir=None, downloads_limit=20):
+#     """Orchestrate the file selection process with Downloads limiting"""
+#     # Set default downloads directory
+#     if downloads_dir is None:
+#         downloads_dir = os.path.join(os.path.expanduser('~'), 'Downloads')
+    
+#     # Get data directory files
+#     data_files = [os.path.join(data_dir, f) for f in get_ohlcv_files(data_dir, create_dir=True)]
+    
+#     # Get downloads directory files with limiting
+#     downloads_files = []
+#     if os.path.exists(downloads_dir):
+#         downloads_files = process_downloads_dir(downloads_dir, downloads_limit)
+    
+#     # Combine file lists
+#     ohlcv_files = data_files + downloads_files
+    
+#     if not ohlcv_files:
+#         display(Markdown("**Error:** No OHLCV files found!"))
+#         return None, None
+    
+#     # User interaction
+#     display_file_selector(ohlcv_files)  # Existing function
+#     selected_file = get_user_choice(ohlcv_files)  # Existing function
+    
+#     # Generate clean path (always in data directory)
+#     clean_name = generate_clean_filename(os.path.basename(selected_file))
+#     dest_path = os.path.join(data_dir, clean_name)
+    
+#     display(Markdown(f"""
+#     **Selected paths:**
+#     - Source: `{selected_file}`  
+#     - Destination: `{dest_path}`
+#     """))
+#     return selected_file, dest_path
+
+# ====================
 
