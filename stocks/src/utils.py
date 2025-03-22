@@ -675,12 +675,66 @@ def main_processor(data_dir='../data', downloads_dir=None, downloads_limit=20,
     """))
     return selected_file, dest_path
 
-
-
-
-
 # ====================
+import numpy as np
+import pandas as pd
 
 
+
+import numpy as np
+import pandas as pd
+
+def get_cov_corr_ewm_matrices(df, span=21, return_corr=True, return_cov=True):
+    """
+    Calculates the exponentially weighted moving (EWM) covariance and/or correlation matrix,
+    correcting for potential biases introduced by standard EWM calculations
+    and handling cases with zero variance.  Can return either or both matrices.
+
+    Args:
+        df (pd.DataFrame): Input DataFrame containing time series data.  Each column represents a different asset.
+        span (int, optional): The span parameter for the EWM calculation.  A larger span
+                             gives more weight to recent data. Defaults to 21.
+        return_corr (bool, optional): Whether to return the correlation matrix. Defaults to True.
+        return_cov (bool, optional): Whether to return the covariance matrix. Defaults to True.
+
+    Returns:
+        tuple: A tuple containing the EWM covariance matrix and/or the correlation matrix,
+               depending on the values of `return_cov` and `return_corr`.  Returns None for a matrix if the
+               corresponding `return_` flag is False. The order of the matrices in the tuple is
+               (covariance_matrix, correlation_matrix).
+
+               If both `return_corr` and `return_cov` are False, returns None.
+    """
+    alpha = 2 / (span + 1)
+
+    ewm_mean = df.ewm(alpha=alpha, adjust=False).mean()
+    demeaned = df - ewm_mean
+
+    # Compute weights for valid observations
+    weights = (1 - alpha) ** np.arange(len(df), 0, -1)
+    weights /= weights.sum()
+
+    # Compute covariance using clean data
+    cov_matrix = np.einsum('t,tij->ij', weights,
+                          np.einsum('ti,tj->tij', demeaned.values, demeaned.values))
+
+    if return_corr:
+        # Handle zero variances to avoid division by zero
+        variances = np.diag(cov_matrix).copy()
+        variances[variances <= 0] = 1e-10  # Prevent NaN/Inf during normalization
+        std_devs = np.sqrt(variances)
+
+        # Calculate correlation matrix
+        correlation_matrix = cov_matrix / np.outer(std_devs, std_devs)
+        correlation_matrix = pd.DataFrame(correlation_matrix, index=df.columns, columns=df.columns)
+    else:
+        correlation_matrix = None
+
+    cov_matrix = pd.DataFrame(cov_matrix, index=df.columns, columns=df.columns) if return_cov else None
+
+    if not return_corr and not return_cov:
+        return None
+
+    return (cov_matrix, correlation_matrix) if return_cov and return_corr else (cov_matrix if return_cov else correlation_matrix)
 
 

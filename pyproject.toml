@@ -61,6 +61,7 @@ pyautogui = "^0.9.54"
 pyperclip = "^1.9.0"
 opencv-python = "^4.11.0.86"
 fake-useragent = "^2.1.0"
+scipy = "^1.15.2"
 
 
 [build-system]
