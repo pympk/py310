@@ -54,52 +54,6 @@ def get_latest_downloaded_files(directory_path, num_files=10):
         return []
 
 
-def _calculate_performance_metrics(returns, risk_free_rate=0.0):
-    """
-    Calculates Sortino Ratio, Sharpe Ratio, and Omega Ratio using PyFolio/Empyrical.
-
-    Args:
-        returns (pd.Series or np.array):  Daily returns of the investment.
-                                         Must be a Pandas Series with a DatetimeIndex.
-        risk_free_rate (float):  The risk-free rate (annualized). Default is 0.0.
-
-    Returns:
-        dict: A dictionary containing the calculated ratios.
-              Returns None if there is an error or the input is invalid.
-    """
-
-    try:
-        # Ensure returns is a pandas Series with a DatetimeIndex.  Crucial for pyfolio.
-        if not isinstance(returns, pd.Series):
-            returns = pd.Series(returns)  # Convert to Series if needed
-        if not isinstance(returns.index, pd.DatetimeIndex):
-            raise ValueError("Returns must be a Pandas Series with a DatetimeIndex.")
-
-        # Convert annualized risk-free rate to daily rate
-        days_per_year = 252  # Standard for financial calculations
-        daily_risk_free_rate = risk_free_rate / days_per_year
-
-        # Calculate the Sharpe Ratio using empyrical (as pyfolio's is deprecated)
-        sharpe_ratio = empyrical.sharpe_ratio(returns, risk_free=daily_risk_free_rate, annualization=days_per_year)
-
-        # Calculate the Sortino Ratio using empyrical
-        sortino_ratio = empyrical.sortino_ratio(returns, required_return=daily_risk_free_rate, annualization=days_per_year)
-
-        # Calculate the Omega Ratio using empyrical
-        omega_ratio = empyrical.omega_ratio(returns, risk_free=daily_risk_free_rate, annualization=days_per_year)
-
-
-        return {
-            "Sharpe Ratio": sharpe_ratio,
-            "Sortino Ratio": sortino_ratio,
-            "Omega Ratio": omega_ratio
-        }
-
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        return None
-
-
 def calculate_performance_metrics(returns, risk_free_rate=0.0):
     """
     Calculates Sortino Ratio, Sharpe Ratio, and Omega Ratio using PyFolio/Empyrical.
